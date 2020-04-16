@@ -129,4 +129,4 @@ STATICFILES_DIRS =(
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_ROOT=os.path.join(BASE_DIR,'/uploads/')
+MEDIA_ROOT=BASE_DIR
