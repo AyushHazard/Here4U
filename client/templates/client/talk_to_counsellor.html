@@ -6,18 +6,18 @@
 -->
 
 
-{%block intro%}{%endblock%}
+ {%block intro%}{%endblock%}
 				
-{%block home_state%}<li>{%endblock%}
-{%block talk_state%}<li class="active">{%endblock%}
-{%block about_state%}<li>{%endblock%}
+ {%block home_state%}<li>{%endblock%}
+ {%block talk_state%}<li class="active">{%endblock%}
+ {%block about_state%}<li>{%endblock%}
 
 
-{%block content%}
+ {%block content%}
 
-<!-- Post -->
+ <!-- Post -->
 	
-
+ {%if show%}
 	<section class="post">
 		
 		<header class="major">
@@ -26,103 +26,67 @@
 			<h4>Please describe how you feel briefly. =) </h4>
 		</header>
 		
-		<form method="post" action="#" class="alt">
+		<form method="POST"  class="alt" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			<!-- <div class="table-wrapper">
+				<table>
+					{{form.as_table}}
+				</table>
+			</div> -->
+
 			<div class="12u$">
-				<textarea name="demo-message" id="demo-message" placeholder="Write your heart out !!" rows="6"></textarea>
+				
+				<textarea name="Message" id="Message" placeholder="Write your heart out !!" rows="6"></textarea>
+				<!-- <input id="Message" type="text" name="Message"> -->
+				
 			</div>
 			<br>
-			
-			<div class="6u 12u$(small)">
-				<input type="checkbox" id="demo-copy" name="demo-copy">
-				<label for="demo-copy">Email me a copy</label>
-			</div>
 
 			<div class="12u$">
 				<ul class="actions">
 					<li><input type="submit" value="Send Message" class="special" /></li>
 					<li><input type="reset" value="Reset" /></li>
-					<li><a href="#" class="button icon fa-upload">Upload an audio/video description</a></li>
+					<li>
+						<!-- <label for="extra_data"class="button icon fa-upload">Upload an audio/video description</label> -->
+						<input id = "extra_data" type="file", name="extra_data"/>
+					</li>
+					<!-- <li><a href={{form.extra_data}} class="button icon fa-upload">Upload an audio/video description</a></li> -->
 				</ul>
 			</div>
 		</form>
 		
 	</section>
 
+	
+
+ {%endif%}
+
+ {%if message%}
+<script>
+    alert('{{ message }}');
+	</script>
+ {%endif%}
+	
 
 
 	<section class="posts">
+
+		{%for counsellor in all_counsellors%}
 			<article>
 				<header>
 					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Rick</a></h2>
+					<h2><a href="#">{{counsellor.Name}}</a></h2>
 				</header>
 				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
+				<p>{{counsellor.Summary}}<br>
 					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
 				<ul class="actions">
 					<li><a href="#" class="button">Book an appointment</a></li>
 				</ul>
 			</article>
-			<article>
-				<header>
-					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Morty</a></h2>
-				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
-					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
-				<ul class="actions">
-					<li><a href="#" class="button">Book an appointment</a></li>
-				</ul>
-			</article>
-			<article>
-				<header>
-					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Professor</a></h2>
-				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
-					<a href="#" class="button small icon fa-tag">Money</a> <a href="#" class="button small icon fa-tag">Heist</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
-				<ul class="actions">
-					<li><a href="#" class="button">Book an appointment</a></li>
-				</ul>
-			</article>
-			<article>
-				<header>
-					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Rick</a></h2>
-				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
-					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
-				<ul class="actions">
-					<li><a href="#" class="button">Book an appointment</a></li>
-				</ul>
-			</article>
-			<article>
-				<header>
-					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Rick</a></h2>
-				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
-					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
-				<ul class="actions">
-					<li><a href="#" class="button">Book an appointment</a></li>
-				</ul>
-			</article>
-			<article>
-				<header>
-					<span class="date">April 24, 2017</span>
-					<h2><a href="#">Rick</a></h2>
-				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>He's a total badass. Basically the brief description of the counsellor goes in here<br>
-					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
-				<ul class="actions">
-					<li><a href="#" class="button">Book an appointment</a></li>
-				</ul>
-			</article>
+		{%endfor%}	
+			
 		</section>
 
 {%endblock%}
