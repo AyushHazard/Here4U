@@ -1,0 +1,32 @@
+{% extends "client/base.html" %}
+
+{%block intro%}{%endblock%}
+{%block home_state%}<li>{%endblock%}
+  {%block talk_state%}<li>{%endblock%}
+    {%block about_state%}<li>{%endblock%}
+
+
+{% block content %}
+
+<form method="POST">
+	{%csrf_token%}
+   <div class="table-wrapper">
+		<table>
+			{{form.as_table}}
+		</table>
+	</div>
+
+	<div class="12u$">
+				<ul class="actions" align="centre">
+					<li><input type="submit" value="Sign Up!"  class="special" /></li>
+					<!-- <li><input type="reset" value="Reset" /></li>
+					<li>
+						<label for="extra_data"class="button icon fa-upload">Upload an audio/video description</label>
+						<input id = "extra_data" type="file", name="extra_data"/>
+					</li> -->
+					<!-- <li><a href={{form.extra_data}} class="button icon fa-upload">Upload an audio/video description</a></li> -->
+				</ul>
+			</div>
+</form>
+  
+{% endblock %}    	

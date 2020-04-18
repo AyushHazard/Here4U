@@ -6,5 +6,4 @@ urlpatterns = [
     path('about/',views.about, name="counsellor-about"),
     path('pick/',views.pick,name = "pick-clients"),
     path('active/',views.active,name = "active-clients"),
-
 ]

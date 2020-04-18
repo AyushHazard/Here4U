@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Description
 from .forms import DescriptionForm
 from django.views.generic import CreateView
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 from counsellor.models import *
 # Create your views here.
 
@@ -14,6 +15,22 @@ def about(request):
 
 def home(request):
 	return render(request,'client/home.html')
+
+
+def signup(request):
+	if request.method=="POST":
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return render(request,'client/home.html')
+	else:
+		form = UserCreationForm()
+
+	return render(request,'client/signup.html',{'form':form})
+
+def login(request):
+	return render(request,'../registration/login.html')	
+
 
 
 
