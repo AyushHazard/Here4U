@@ -1,0 +1,89 @@
+{%extends "counsellor/base2.html"%}
+
+{%block intro%}{%endblock%}
+
+{%block home_state%}<li>{%endblock%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+
+{%block content%}
+
+
+<ul class="actions fit small">
+	<li><a href="{%url 'update-profile' %}" class="button special fit small">Sign in as a User?</a></li>
+</ul>
+
+<center><h2>Update Profile</h2></center>
+
+<form method="post" class="alt">
+	{% csrf_token %}
+	<div class="row uniform">
+
+		<div class="table-wrapper">
+				<table>
+					{{form.as_table}}
+				</table>
+			</div>
+		<!-- <div class="6u 12u$(xsmall)">
+			<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name (Set an alias if you do not wish to reveal your name)" />
+		</div>
+		<div class="6u$ 12u$(xsmall)">
+			<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email (Mandatory, but will not be visible to anyone)" />
+		</div>
+		
+		
+		<div class="12u$">
+			<div class="select-wrapper">
+				<select name="demo-category" id="demo-category">
+					<option value="">- Gender -</option>
+					<option value="0">Male</option>
+					<option value="1">Female</option>
+					<option value="2">Others</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<input type="email" name="demo-email" id="demo-email" value="" placeholder="Age (Mandatory)" />
+		</div>
+		<div class="6u$ 12u$(xsmall)">
+			<input type="email" name="demo-email" id="demo-email" value="" placeholder="Location (Optional)" />
+		</div>
+
+		<div class="12u$">
+			<div class="select-wrapper">
+				<select name="demo-category" id="demo-category">
+					<option value="">- Marital Status -</option>
+					<option value="1">Single</option>
+					<option value="2">Commited</option>
+					<option value="3">Married</option>
+					<option value="4">Divorced</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="12u$">
+			<div class="select-wrapper">
+				<select name="demo-category" id="demo-category">
+					<option value="">- Educational Status -</option>
+					<option value="1">10th Pass</option>
+					<option value="2">12th Pass</option>
+					<option value="3">Graduate</option>
+					<option value="4">Post Graduate</option>
+					<option value="5">PhD</option>
+					<option value="6">Post Doc</option>
+				</select>
+			</div>
+		</div> -->
+		<div class="12u$">
+			<ul class="actions">
+				<li><input type="submit" value="Submit" class="special" /></li>
+				<li><input type="reset" value="Reset" /></li>
+			</ul>
+		</div>
+	</div>
+</form>
+
+{%endblock%}
