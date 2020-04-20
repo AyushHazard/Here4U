@@ -13,4 +13,7 @@ urlpatterns = [
     # path('accounts/login/',views.login,name='login'),
     # path('accounts/logout/',views.logout,name='log-out'),
     path('profile/<int:pk>/',views.profile,name='profile'),
+    path('pick/',views.pick,name = "pick-clients"),
+    path('active/',views.active,name = "active-clients"),
+    path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor")
 ]

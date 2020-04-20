@@ -6,10 +6,13 @@
 -->
 
 
-{%block intro%}{%endblock%}
-				
-{%block home_state%}<li>{%endblock%}
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
 {%block talk_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
 {%block about_state%}<li class="active">{%endblock%}
 
 {%block content%}

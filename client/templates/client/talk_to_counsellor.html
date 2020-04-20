@@ -45,7 +45,11 @@
 
 			<div class="12u$">
 				<ul class="actions">
+					{%if user.is_authenticated%}
 					<li><input type="submit" value="Send Message" class="special" /></li>
+					{%else%}
+					<li><a href="{%url 'sign-up'%}" class="button">Login/ Signup to submit</a></li>
+					{%endif%}
 					<li><input type="reset" value="Reset" /></li>
 					<li>
 						<!-- <label for="extra_data"class="button icon fa-upload">Upload an audio/video description</label> -->
