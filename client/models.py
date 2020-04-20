@@ -29,7 +29,7 @@ class Description(models.Model):
 class Counsellordata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
     Name=models.CharField(max_length=100)
-    Gender=models.IntegerField(max_length=32,choices=[(0,'Male'),(1,'Female'),(2,'Other')])
+    Gender=models.IntegerField(choices=[(0,'Male'),(1,'Female'),(2,'Other')])
     Age=models.IntegerField(blank = True,null=True)
     Profile_pic = models.FileField(blank=True,null=True)
     Email=models.EmailField()
