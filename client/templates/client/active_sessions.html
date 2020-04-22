@@ -6,24 +6,27 @@
 -->
 
 
-{%block intro%}{%endblock%}
+ {%block intro%}{%endblock%}
 				
-{%block home_state%}<li>{%endblock%}
-{%block client_state%}<li>{%endblock%}
-{%block active_state%}<li class="active">{%endblock%}
-{%block about_state%}<li>{%endblock%}
+ {%block home_state%}<li>{%endblock%}
+ {%block talk_state%}<li>{%endblock%}
+ {%block session_state%}<li class = "active">{%endblock%}	
+ {%block about_state%}<li>{%endblock%}
 
 
-{%block content%}
+ {%block content%}
 
-<!-- Post -->
+ <!-- Post -->
+	
+
+
 	<section class="posts">
 
-		{%for client in all_clients%}
+		{%for counsellor in all_counsellors%}
 			<article>
 				<header>
 					<!-- <span class="date">April 24, 2017</span> -->
-					<h2><a href="#">{{client.Name}}</a></h2>
+					<h2><a href="#">{{counsellor.Name}}</a></h2>
 				</header>
 				
 				<ul class="actions">

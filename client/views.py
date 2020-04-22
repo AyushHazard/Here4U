@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Description
+from .models import *
 from .forms import *
 from django.views.generic import CreateView
 from django.contrib import messages
@@ -121,6 +121,33 @@ def talk(request):
         context = {"form":form,"client":True,"show":show,'all_counsellors': Counsellordata.objects.all()}
         return render(request,'client/talk_to_counsellor.html',context) 
 
+@login_required
+def book(request,pk):
+    counsellor = Counsellordata.objects.get(pk=pk)
+    check = ActiveCounsellor.objects.filter(user = request.user, Counsellor=counsellor.User)
+    if not check:
+        active_client = ActiveClient(user=counsellor.User,Client=request.user)
+        active_counsellor = ActiveCounsellor(user=request.user,Counsellor=counsellor.User)
+        active_client.save()
+        active_counsellor.save()
+    return redirect(talk)
+
+@login_required
+def sessions(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+            return render(request,'client/home.html',{"client":user_check})
+    all_counsellors = []
+    for obj in ActiveCounsellor.objects.all().filter(user=request.user):
+        counsellor = obj.Counsellor
+        # print(counsellor)
+        all_counsellors.append(Counsellordata.objects.get(User=counsellor))
+
+    content = {"client":user_check,"all_counsellors":all_counsellors}
+    return render(request,'client/active_sessions.html',content)
 
 
 # Counsellor Views
@@ -145,7 +172,13 @@ def active(request):
             user_check = True
             return render(request,'client/home.html',{"client":user_check})
 
-    return render(request,'client/active_clients.html',{"client":user_check})    
+    all_clients = []
+    for obj in ActiveClient.objects.all().filter(user=request.user):
+        client = obj.Client
+        # print(counsellor)
+        all_clients.append(Clientdata.objects.get(User=client))        
+
+    return render(request,'client/active_clients.html',{"client":user_check,"all_clients":all_clients})    
 
 
 def updateProfileCounsellor(request):

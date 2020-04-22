@@ -15,5 +15,7 @@ urlpatterns = [
     path('profile/<int:pk>/',views.profile,name='profile'),
     path('pick/',views.pick,name = "pick-clients"),
     path('active/',views.active,name = "active-clients"),
-    path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor")
+    path('active-sessions/',views.sessions,name="active-sessions"),
+    path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor"),
+    path('book/<int:pk>/',views.book,name="book-appointment"),
 ]

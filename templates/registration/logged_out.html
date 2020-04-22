@@ -1,13 +1,15 @@
 {% extends "client/base.html" %}
 
 {%block home_state%}<li>{%endblock%}
-{%if client or not user.is_authenticated%}}	
+{%if client%}}  
 {%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
 {%else%}
 {%block client_state%}<li>{%endblock%}
-{%block active_state%}<li>{%endblock%}	
-{%endif%}	
-{%block about_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%} 
+{%block about_state%}<li>{%endblock%}  
+
 
 {% block content %}
   <p>Logged out!</p>  

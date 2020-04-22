@@ -3,6 +3,7 @@
 {%block home_state%}<li>{%endblock%}
 {%if client or not user.is_authenticated%}}	
 {%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
 {%else%}
 {%block client_state%}<li>{%endblock%}
 {%block active_state%}<li>{%endblock%}	

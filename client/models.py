@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+# CLIENT MODELS
+
 class Clientdata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
     Name=models.CharField(max_length=100)
@@ -11,7 +14,7 @@ class Clientdata(models.Model):
     State=models.CharField(max_length=50,blank = True,null=True)
     City=models.CharField(max_length=50,blank = True,null=True)
     Marital_Status=models.CharField(max_length=32,choices=[('0','Single'),('1','Commited'),('2','Divorced'),('3','Married')])
-    Educational_Status=models.CharField(max_length=32,choices=[('0','10th Pass'),('1','12th Pass'),('2','Graduate'),('3','Post-Graduate'),('4','Doctorate'),('5','Post-Doc')])
+    Educational_Status=models.CharField(max_length=32,choices=[('0','10th Pass'),('1','12th Pass'),('2','Graduate'),('3','Post_Graduate'),('4','Doctorate'),('5','Post_Doc')])
     
     def __str__(self):
         return self.Name
@@ -25,6 +28,13 @@ class Description(models.Model):
     def __str__(self):
         return self.Message
 
+class ActiveCounsellor(models.Model):
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_clside')
+    Counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_clside')
+
+
+
+# COUNSELLOR MODELS
 
 class Counsellordata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
@@ -41,3 +51,8 @@ class Counsellordata(models.Model):
 
     def __str__(self):
         return self.Name
+
+class ActiveClient(models.Model):
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_coun')
+    Client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_coun')
+

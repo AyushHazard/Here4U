@@ -38,6 +38,8 @@
 
 					{%block talk_state%}{%endblock%}<a href="{%url 'talk-to-counsellor'%}">Talk to a Counsellor</a></li>
 
+					{%block session_state%}{%endblock%}<a href="{%url 'active-sessions'%}">Active Sessions</a></li>
+
 					{%else%}
 
 					{%block client_state%}{%endblock%}<a href="{%url 'pick-clients'%}">Pick your clients</a></li>

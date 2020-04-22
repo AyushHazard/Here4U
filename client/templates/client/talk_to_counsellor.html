@@ -10,6 +10,7 @@
 				
  {%block home_state%}<li>{%endblock%}
  {%block talk_state%}<li class="active">{%endblock%}
+ {%block session_state%}<li>{%endblock%}
  {%block about_state%}<li>{%endblock%}
 
 
@@ -21,7 +22,7 @@
 	<section class="post">
 		
 		<header class="major">
-			<span class="date">April 25, 2017</span>
+			<!-- <span class="date">April 25, 2017</span> -->
 			<h1>Talk to a counsellor</h1>
 			<h4>Please describe how you feel briefly. =) </h4>
 		</header>
@@ -46,7 +47,7 @@
 			<div class="12u$">
 				<ul class="actions">
 					{%if user.is_authenticated%}
-					<li><input type="submit" value="Send Message" class="special" /></li>
+					<li><input type="submit" value="Submit" class="special" /></li>
 					{%else%}
 					<li><a href="{%url 'sign-up'%}" class="button">Login/ Signup to submit</a></li>
 					{%endif%}
@@ -79,7 +80,7 @@
 		{%for counsellor in all_counsellors%}
 			<article>
 				<header>
-					<span class="date">April 24, 2017</span>
+					<!-- <span class="date">April 24, 2017</span> -->
 					<h2><a href="#">{{counsellor.Name}}</a></h2>
 				</header>
 				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
@@ -87,7 +88,8 @@
 					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
 				<ul class="actions">
 					<li><a href="#" class="button">Message</a></li>
-					<li><a href="#" class="button">Book an appointment</a></li>
+					<li><a href="{%url 'book-appointment' pk=counsellor.pk %}" class="button">Book an appointment</a></li>
+
 				</ul>
 			</article>
 		{%endfor%}	

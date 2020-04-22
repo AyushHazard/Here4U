@@ -4,3 +4,5 @@ from .models import *
 admin.site.register(Clientdata)
 admin.site.register(Counsellordata)
 admin.site.register(Description)
+admin.site.register(ActiveCounsellor)
+admin.site.register(ActiveClient)
