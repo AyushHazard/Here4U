@@ -84,7 +84,7 @@ def updateProfile(request):
             
     return render(request,'client/update-profile.html',context)
 
-
+# Talk to a counsellor View
 
 def talk(request):
     user_check = True
@@ -121,16 +121,43 @@ def talk(request):
         context = {"form":form,"client":True,"show":show,'all_counsellors': Counsellordata.objects.all()}
         return render(request,'client/talk_to_counsellor.html',context) 
 
+
+## Booking View 
+
 @login_required
 def book(request,pk):
     counsellor = Counsellordata.objects.get(pk=pk)
+    if not counsellor:
+        return redirect(talk)
+
+    form = BookingForm()
     check = ActiveCounsellor.objects.filter(user = request.user, Counsellor=counsellor.User)
+
     if not check:
-        active_client = ActiveClient(user=counsellor.User,Client=request.user)
-        active_counsellor = ActiveCounsellor(user=request.user,Counsellor=counsellor.User)
-        active_client.save()
-        active_counsellor.save()
+        context={"form":form,"client":True,"counsellor":counsellor}
+        if request.method=='POST':
+            form = BookingForm(request.POST)
+            instance = form.save(commit=False)
+            if form.is_valid() and instance.Booking_time>=counsellor.Consultation_start and instance.Booking_time<= counsellor.Consultation_end:
+                
+                instance.user = request.user
+                instance.Counsellor = counsellor.User
+                active_client = ActiveClient(user=counsellor.User,Client=request.user,Booking_time=instance.Booking_time)
+                instance.save()
+                active_client.save()
+                return redirect(sessions)
+            else:
+                form = BookingForm()
+                return render(request,'client/book.html',context)
+                
+
+        else:
+            return render(request,'client/book.html',context)
+
     return redirect(talk)
+
+
+## Active Sessions view
 
 @login_required
 def sessions(request):
@@ -141,12 +168,14 @@ def sessions(request):
             user_check = False
             return render(request,'client/home.html',{"client":user_check})
     all_counsellors = []
+    time = []
     for obj in ActiveCounsellor.objects.all().filter(user=request.user):
         counsellor = obj.Counsellor
+        time.append(obj.Booking_time)
         # print(counsellor)
         all_counsellors.append(Counsellordata.objects.get(User=counsellor))
 
-    content = {"client":user_check,"all_counsellors":all_counsellors}
+    content = {"client":user_check,"all_counsellors":zip(all_counsellors,time)}
     return render(request,'client/active_sessions.html',content)
 
 
@@ -173,12 +202,14 @@ def active(request):
             return render(request,'client/home.html',{"client":user_check})
 
     all_clients = []
+    time = []
     for obj in ActiveClient.objects.all().filter(user=request.user):
         client = obj.Client
+        time.append(obj.Booking_time)
         # print(counsellor)
         all_clients.append(Clientdata.objects.get(User=client))        
 
-    return render(request,'client/active_clients.html',{"client":user_check,"all_clients":all_clients})    
+    return render(request,'client/active_clients.html',{"client":user_check,"all_clients":zip(all_clients,time)})    
 
 
 def updateProfileCounsellor(request):

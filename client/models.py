@@ -31,7 +31,7 @@ class Description(models.Model):
 class ActiveCounsellor(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_clside')
     Counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_clside')
-
+    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 
 
 # COUNSELLOR MODELS
@@ -48,6 +48,8 @@ class Counsellordata(models.Model):
     Education=models.CharField(max_length=300,blank = True,null=True)
     Expertise = models.CharField(max_length=200,blank=True,null=True)
     Summary = models.CharField(max_length=1000,blank=True,null=True)
+    Consultation_start = models.TimeField(null=True,auto_now=False, auto_now_add=False)
+    Consultation_end = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 
     def __str__(self):
         return self.Name
@@ -55,4 +57,5 @@ class Counsellordata(models.Model):
 class ActiveClient(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_coun')
     Client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_coun')
+    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 

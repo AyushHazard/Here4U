@@ -22,13 +22,13 @@
 
 	<section class="posts">
 
-		{%for counsellor in all_counsellors%}
+		{%for counsellor,time in all_counsellors%}
 			<article>
 				<header>
 					<!-- <span class="date">April 24, 2017</span> -->
 					<h2><a href="#">{{counsellor.Name}}</a></h2>
 				</header>
-				
+				<p><b>Booking Time: {{time}}</b></p>
 				<ul class="actions">
 					<li><a href="#" class="button small">Cancel</a></li>
 					<li><a href="#" class="button special">Message</a></li>

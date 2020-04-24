@@ -1,0 +1,43 @@
+{%extends "client/base.html"%}
+
+
+ {%block intro%}{%endblock%}
+				
+ {%block home_state%}<li>{%endblock%}
+ {%block talk_state%}<li>{%endblock%}
+ {%block session_state%}<li>{%endblock%}
+ {%block about_state%}<li>{%endblock%}
+
+ {%block content%}
+
+ <h2>{{counsellor.Name}} is availaible from {{counsellor.Consultation_start}} to {{counsellor.Consultation_end}}</h2>
+
+ <h3>Please pick a time that fits your schedule</h3>
+
+ <centre>Please enter the time in 24-hour format ie. hh:mm</centre>
+
+ <form method="POST">
+ 	{%csrf_token%}
+   <div class="table-wrapper">
+		<table>
+			{{form.as_table}}
+		</table>
+	</div>
+
+	<div class="12u$">
+		<ul class="actions" align="centre">
+			<li><input type="submit" value="Book Now!"  class="special" /></li>
+		</ul>
+	</div>
+
+
+
+ </form>
+
+
+ {%endblock%}
+
+
+
+
+
