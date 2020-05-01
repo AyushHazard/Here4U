@@ -8,7 +8,14 @@ from django.contrib.auth.forms import UserCreationForm
 # from counsellor.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import viewsets, permissions, authentication, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
+from .serializers import *
 # from counsellor.models import *
 # Create your views here.
 
@@ -233,5 +240,197 @@ def updateProfileCounsellor(request):
         else:
             return render(request,'client/update-profile-counsellor.html',context)
             
-    return render(request,'client/update-profile-counsellor.html',context)    
+    return render(request,'client/update-profile-counsellor.html',context) 
+
+
+
+
+"""
+
+
+
+
+    API VIEWS --- API VIEWS --- API VIEWS --- API VIEWS --- API VIEWS --- API VIEWS
+
+
+
+
+"""
+@login_required
+@api_view(('GET',))
+def GetUserId(request):
+    user_id = request.user.id
+    message = [{"id":user_id}]
+    return Response(message)
+
+class CreateUserView(CreateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+class CreateClientProfileView(CreateAPIView):
+    serializer_class = ClientdataSerializer
+    permission_classes=[
+    permissions.IsAuthenticated
+    ]
+
+@login_required
+@api_view(('GET',))
+def GetClientView(request,pk):
+    # description = Description.objects.all()#.filter(pk=pk)
+    user = User.objects.filter(id=pk).first()
+    client = ClientdataSerializer(Clientdata.objects.filter(User=user),many=True)
+    # for i in User.objects.all():
+    #     print(i.username)
+    return Response(client.data)
+
+@login_required
+@api_view(('GET',))
+def GetCounsellorView(request,pk):
+    # description = Description.objects.all()#.filter(pk=pk)
+    user = User.objects.filter(id=pk).first()
+    counsellor = CounsellordataSerializer(Counsellordata.objects.filter(User=user),many=True)
+    # for i in User.objects.all():
+    #     print(i.username)
+    return Response(counsellor.data)        
+
+class CreateCounsellorProfileView(CreateAPIView):
+    serializer_class = CounsellordataSerializer
+    permission_classes=[
+    permissions.IsAuthenticated
+    ]   
+
+class UpdateCounserllorProfileView(UpdateAPIView):
+    serializer_class = CounsellordataSerializer
+    permissions_class=[
+    permissions.IsAuthenticated
+    ]
+    lookup_field = 'User'
+    queryset = Counsellordata.objects.all()   
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        # make sure to catch 404's below
+        obj = queryset.get(User=self.request.user)
+        return obj
+
+class UpdateClientProfileView(UpdateAPIView):
+    serializer_class = ClientdataSerializer
+    permissions_class=[
+    permissions.IsAuthenticated
+    ]
+    lookup_field = 'User'
+    queryset = Clientdata.objects.all()   
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        # make sure to catch 404's below
+        obj = queryset.get(User=self.request.user)
+        print(obj)
+        return obj        
+
+
+class ListCounsellorsView(ListAPIView):
+    queryset = Counsellordata.objects.all()
+    serializer_class=CounsellordataSerializer
+    permission_classes=[
+    permissions.AllowAny
+    ]
+
+class CreateDescriptionView(CreateAPIView):
+    serializer_class = DescriptionSerializer
+    permission_classes=[
+    permissions.IsAuthenticated
+    ]
+
+# ListDescriptionView : This view will fetch us the description of the user with primary key as pk
+
+@login_required
+@api_view(('GET',))
+def GetDescriptionView(request,pk):
+    # description = Description.objects.all()#.filter(pk=pk)
+    user = User.objects.filter(id=pk).first()
+    description = DescriptionSerializer(Description.objects.filter(User=user),many=True)
+    # for i in User.objects.all():
+    #     print(i.username)
+    return Response(description.data)
+
+@login_required
+@api_view(('GET',))
+def UserTypeCheck(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+    if user_check:
+        message = [{"is_client": True,"status":"client"}]
+    else:
+        message = [{"is_client": False,"status":"counsellor"}]
+                
+    return Response(message)    
+
+# To create a booking one needs to send in the user_id of client and counsellor and the time of booking
+# One should also ensure in the front-end itself that the time entered by the user lies in the 
+# appointment hours of the counsellor because this view directly creates an object without checking
+
+class CreateBookingView(CreateAPIView):
+    serializer_class = BookingSerializer
+    permission_classes=[
+    permissions.IsAuthenticated
+    ]
     
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(('GET',))
+def GetActiveClientsView(request):
+    obj = BookingSerializer(Bookings.objects.filter(counsellor_id=request.user.id),many=True)
+
+    return Response(obj.data)
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(('GET',))
+def GetActiveCounsellorsView(request):
+    obj = BookingSerializer(Bookings.objects.filter(client_id=request.user.id),many=True)
+
+    return Response(obj.data)    
+
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(('GET',))
+def LogOutView(request):
+    logout(request)
+    return Response(None)
+
+
+'''
+NOTE  that the format for post should be like the example given below
+                                                                        [
+                                                                            {"username":"div"},
+                                                                            {"password":"123"}
+                                                                        ]
+'''
+
+class LogInView(APIView):
+    def post(self, request, format=None):
+        data = request.data
+
+        username = data[0]['username']
+        password = data[1]['password']
+
+        print(data)
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+

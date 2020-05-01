@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 class Clientdata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
+    # user_id = models.IntegerField(null = True,blank = True)
     Name=models.CharField(max_length=100)
     Gender=models.CharField(max_length=32,choices=[('0','Male'),('1','Female'),('2','Others')])
     Age=models.IntegerField()
@@ -34,11 +35,18 @@ class ActiveCounsellor(models.Model):
     Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 
 
+class Bookings(models.Model):
+    client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_user')
+    client_key = models.IntegerField(blank = True,null=True)
+    counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_user')
+    counsellor_key = models.IntegerField(blank=True,null = True)
+    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 # COUNSELLOR MODELS
 
 class Counsellordata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
-    Name=models.CharField(max_length=100)
+    # user_id = models.IntegerField(null = True,blank = True)
+    Name = models.CharField(max_length=100)
     Gender=models.IntegerField(choices=[(0,'Male'),(1,'Female'),(2,'Other')])
     Age=models.IntegerField(blank = True,null=True)
     Profile_pic = models.FileField(blank=True,null=True)
