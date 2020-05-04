@@ -412,17 +412,31 @@ NOTE  that the format for post should be like the example given below
                                                                             {"password":"123"}
                                                                         ]
 '''
-
+@permission_classes([permissions.AllowAny])
 class LogInView(APIView):
     def post(self, request, format=None):
         data = request.data
 
-        username = data[0]['username']
-        password = data[1]['password']
+        print(request.POST)
+
+        try:
+            username = data[0].get('username')
+            password = data[1].get('password')
+        except:
+            print("HEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYY")
+            data = request.POST['data ']
+            
+            username = data[0].get('username')
+            password = data[1].get('password')
+
 
         print(data)
 
         user = authenticate(username=username, password=password)
+
+        login(request, user)
+
+        return Response(status=status.HTTP_200_OK)
 
         if user is not None:
             if user.is_active:

@@ -25,7 +25,7 @@ SECRET_KEY = 'ycg7p6(=jtsd1j)s9ggbtpz(-kgc(ag@uw+bh5ng3-17!tj)ua'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hear4u.herokuapp.com']
+ALLOWED_HOSTS = ['hear4u.herokuapp.com','127.0.0.1','hear4u-iitrpr.herokuapp.com']
 
 
 # Application definition
