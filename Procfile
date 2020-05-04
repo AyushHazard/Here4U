@@ -1,1 +1,1 @@
-web: gunicorn <Mentally>.wsgi --log-file -
+web: gunicorn Mentally.wsgi --log-file -
