@@ -418,9 +418,18 @@ class LogInView(APIView):
     def post(self, request, format=None):
         
         # print(request.POST['data '])
-        # data = json.loads(request.POST['data '])
 
-        data = request.data
+        # print(request.POST['data '])
+
+        try:
+            data = json.loads(request.POST['data '])    
+        except:
+            try:
+                data = json.loads(request.POST['data'])
+            except:    
+                data = request.data    
+
+        # data = request.data
 
         # print(request.POST['data '])
         print(data)
@@ -433,17 +442,18 @@ class LogInView(APIView):
             # print("HEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYY")
             data = request.POST['data ']
             
-            username = data[0].get('username')
-            password = data[1].get('password')
+            username = data.get('username')
+            password = data.get('password')
 
 
-        print(data)
+        print(username)
+        print(password)
 
         user = authenticate(username=username, password=password)
 
-        login(request, user)
+        # login(request, user)
 
-        return Response(status=status.HTTP_200_OK)
+        # return Response(status=status.HTTP_200_OK)
 
         if user is not None:
             if user.is_active:
