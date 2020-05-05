@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+import json
 from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -415,15 +416,21 @@ NOTE  that the format for post should be like the example given below
 @permission_classes([permissions.AllowAny])
 class LogInView(APIView):
     def post(self, request, format=None):
+        
+        # print(request.POST['data '])
+        # data = json.loads(request.POST['data '])
+
         data = request.data
 
-        print(request.POST)
+        # print(request.POST['data '])
+        print(data)
 
         try:
-            username = data[0].get('username')
-            password = data[1].get('password')
+            # data = request.data
+            username = data.get('username')
+            password = data.get('password')
         except:
-            print("HEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYY")
+            # print("HEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYY")
             data = request.POST['data ']
             
             username = data[0].get('username')
