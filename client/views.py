@@ -31,6 +31,16 @@ def about(request):
             
     return render(request,'client/about_us.html',{"client":user_check})
 
+def faqs(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+        
+            
+    return render(request,'client/faqs.html',{"client":user_check})
+
 
 def home(request):
     user_check = True
