@@ -257,7 +257,7 @@ def updateProfileCounsellor(request):
 
 
 """
-@login_required
+@permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetUserId(request):
     user_id = request.user.id
@@ -276,7 +276,7 @@ class CreateClientProfileView(CreateAPIView):
     permissions.IsAuthenticated
     ]
 
-@login_required
+@permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetClientView(request,pk):
     # description = Description.objects.all()#.filter(pk=pk)
@@ -286,7 +286,7 @@ def GetClientView(request,pk):
     #     print(i.username)
     return Response(client.data)
 
-@login_required
+@permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetCounsellorView(request,pk):
     # description = Description.objects.all()#.filter(pk=pk)
@@ -347,7 +347,7 @@ class CreateDescriptionView(CreateAPIView):
 
 # ListDescriptionView : This view will fetch us the description of the user with primary key as pk
 
-@login_required
+@permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetDescriptionView(request,pk):
     # description = Description.objects.all()#.filter(pk=pk)
@@ -357,7 +357,7 @@ def GetDescriptionView(request,pk):
     #     print(i.username)
     return Response(description.data)
 
-@login_required
+@permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def UserTypeCheck(request):
     user_check = True
