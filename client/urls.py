@@ -23,6 +23,7 @@ urlpatterns = [
     path('active-sessions/',views.sessions,name="active-sessions"),
     path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor"),
     path('book/<int:pk>/',views.book,name="book-appointment"),
+    path('FAQs/',views.faqs,name="faqs"),
 
     
     # API URLS
