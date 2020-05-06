@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+import json
 from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -422,17 +423,47 @@ NOTE  that the format for post should be like the example given below
                                                                             {"password":"123"}
                                                                         ]
 '''
-
+@permission_classes([permissions.AllowAny])
 class LogInView(APIView):
     def post(self, request, format=None):
-        data = request.data
+        
+        # print(request.POST['data '])
 
-        username = data[0]['username']
-        password = data[1]['password']
+        # print(request.POST['data '])
 
+        try:
+            data = json.loads(request.POST['data '])    
+        except:
+            try:
+                data = json.loads(request.POST['data'])
+            except:    
+                data = request.data    
+
+        # data = request.data
+
+        # print(request.POST['data '])
         print(data)
 
+        try:
+            # data = request.data
+            username = data.get('username')
+            password = data.get('password')
+        except:
+            # print("HEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYYHEYYYYYY")
+            data = request.POST['data ']
+            
+            username = data.get('username')
+            password = data.get('password')
+
+
+        print(username)
+        print(password)
+
         user = authenticate(username=username, password=password)
+
+        # login(request, user)
+
+        # return Response(status=status.HTTP_200_OK)
 
         if user is not None:
             if user.is_active:
