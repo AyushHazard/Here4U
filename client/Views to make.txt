@@ -1,0 +1,21 @@
+Views to make:
+
+Update Profile of already regesterd -- DONE
+Login/ Logout View -- DONE
+Create Username View -- DONE
+
+Delete Profiles, Bookings, Descriptions
+
+Booking Appointment -- DONE
+Get Appointment Details -- DONE
+
+Upload Session Notes
+View Session Notes
+
+
+Implement a messaging system among Users and clients.... We'll have to extend this to any two users in 2nd phase
+
+Integrate Audio/Video call
+
+
+ 
