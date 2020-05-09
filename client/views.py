@@ -375,7 +375,7 @@ def UserTypeCheck(request):
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
             user_check = False
-
+    print(request.user)
     if user_check:
         message = [{"is_client": True,"status":"client"}]
     else:
@@ -460,7 +460,7 @@ class LogInView(APIView):
         print(password)
 
         user = authenticate(username=username, password=password)
-
+        print(user.is_authenticated)
         # login(request, user)
 
         # return Response(status=status.HTTP_200_OK)
