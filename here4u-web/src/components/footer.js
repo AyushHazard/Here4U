@@ -20,8 +20,8 @@ class Footer extends  Component{
                     </div>
 					
 					<ul className="actions">
-						<li><a href="#" className="button">Log in</a></li>
-						<li><a href="#" className="button">Sign Up</a></li>
+						<li><a href="/login" className="button">Log in</a></li>
+						<li><a href="/signup" className="button">Sign Up</a></li>
 					</ul>
 					
 					<p>Use your IIT Ropar Email id to sign up<br />
