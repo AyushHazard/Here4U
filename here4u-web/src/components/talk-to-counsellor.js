@@ -38,6 +38,8 @@ class Talk extends  Component{
     render(){
         const {location} = this.props;
 
+
+
 		console.log(this.props)
 
 		const homeStatus = location.pathname==="/" ? "active":"";
@@ -45,6 +47,15 @@ class Talk extends  Component{
 		const sessionsStatus = location.pathname ==="/active-sessions" ? "active":"";
 		const faqStatus = location.pathname ==="/faqs" ? "active":"";
         const aboutStatus = location.pathname ==="/about" ? "active":"";
+
+
+        const data = async() =>{
+            const apiRes = await fetch("http://127.0.0.1:8000/api/list-counsellors/");
+            const resJSON = await apiRes.json();
+            return resJSON;
+        };
+
+        data().then(res=>console.log(res));
         
         return(
             <div>
