@@ -17,6 +17,7 @@ from rest_framework import viewsets, permissions, authentication, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
 from .serializers import *
+from rest_framework.authtoken.models import Token
 # from counsellor.models import *
 # Create your views here.
 
@@ -65,6 +66,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             new_user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'],)
+            
             login(request, new_user)
             return redirect(updateProfile)
     else:
