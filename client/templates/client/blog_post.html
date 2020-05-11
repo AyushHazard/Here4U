@@ -1,0 +1,35 @@
+{%extends "client/base.html"%}
+
+
+{%block intro%}{%endblock%}
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li class="active">{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+{% block content %}
+
+<h2>Create a new Blog Post</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class="table-wrapper">
+		<table>
+			{{form.as_table}}
+		</table>
+	</div>
+    <div class="12u$">
+				<ul class="actions" align="centre">
+					<li><input type="submit" value="Add post"  class="special" /></li>
+                    <li><a href="{% url 'blog'%}" class="button">Go Back</a></li>
+				</ul>
+	</div>
+</form>
+
+{% endblock %}

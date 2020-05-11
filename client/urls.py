@@ -3,6 +3,7 @@ from . import views
 from django.shortcuts import render, redirect
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import routers
+from .views import BlogView,BlogDetailView,AddArticleView
 
 # from counsellor.urls import
 	
@@ -25,6 +26,10 @@ urlpatterns = [
     path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor"),
     path('book/<int:pk>/',views.book,name="book-appointment"),
     path('FAQs/',views.faqs,name="faqs"),
+    #path('blog/',views.blog,name="blog"),
+    path('blog/', BlogView.as_view(), name="blog"),
+    path('blog/blog_detail/<int:pk>',BlogDetailView.as_view(),name="blog_detail"),
+    path('blog/add_post',AddArticleView.as_view(),name="add_post"),
 
     
     # API URLS
