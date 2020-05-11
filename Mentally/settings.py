@@ -26,7 +26,7 @@ SECRET_KEY = 'ycg7p6(=jtsd1j)s9ggbtpz(-kgc(ag@uw+bh5ng3-17!tj)ua'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['hear4u.herokuapp.com','localhost', '127.0.0.1', 'testserver','here4u-iitrpr.herokuapp.com']
+ALLOWED_HOSTS = ['hear4u.herokuapp.com','localhost:3000', '127.0.0.1', 'testserver','here4u-iitrpr.herokuapp.com']
 
 
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -51,7 +52,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-        'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -117,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -126,6 +128,9 @@ USE_L10N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = 'client-home'
+
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Static files (CSS, JavaScript, Images)
