@@ -3,9 +3,11 @@ from . import views
 from django.shortcuts import render, redirect
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import routers
+from .views import BlogView,BlogDetailView,AddArticleView
+from rest_framework_jwt.views import obtain_jwt_token
 
 # from counsellor.urls import
-	
+    
 # router = routers.DefaultRouter()
 
 # router.register('api/talk',views.TalkViewSet,'talk-api')
@@ -25,6 +27,10 @@ urlpatterns = [
     path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor"),
     path('book/<int:pk>/',views.book,name="book-appointment"),
     path('FAQs/',views.faqs,name="faqs"),
+    #path('blog/',views.blog,name="blog"),
+    path('blog/', BlogView.as_view(), name="blog"),
+    path('blog/blog_detail/<int:pk>/',BlogDetailView.as_view(),name="blog_detail"),
+    path('blog/add_post/',AddArticleView.as_view(),name="add_post"),
 
     
     # API URLS
@@ -52,7 +58,9 @@ urlpatterns = [
     path('api/active-counsellors/',views.GetActiveCounsellorsView,name="active-counsellors-api"),
 
     path('api/logout/',views.LogOutView,name="logout-api"),
-    path('api/login/',views.LogInView.as_view(),name="login-api")
+    path('api/login/',views.LogInView.as_view(),name="login-api"),
+
+    path('api/token-auth/',obtain_jwt_token)
 ]
 
 # urlpatterns = urlpatterns+router.urls

@@ -71,10 +71,16 @@ class ActiveClient(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
+    Name = models.CharField(max_length=100,null = True)
     body = models.TextField()
+    brief = models.TextField(null = True)
 
     def __str__(self):
         return self.title + '|' + str(self.author)
 
     def get_absolute_url(self):
-        return reverse('blog_detail',args=(str(self.id)))
+        print(self.id)
+        return reverse('blog')
+
+
+

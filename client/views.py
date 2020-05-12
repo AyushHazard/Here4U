@@ -18,6 +18,7 @@ from rest_framework import viewsets, permissions, authentication, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
 from .serializers import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 # from counsellor.models import *
 # Create your views here.
 
@@ -32,11 +33,24 @@ class BlogDetailView(DetailView):
     model = Post
     template_name='client/blog_detail.html'
 
-class AddArticleView(CreateView):
+class AddArticleView(LoginRequiredMixin,CreateView):
     model = Post
     template_name='client/blog_post.html'
-    fields = '__all__'
-    #fields = ('title','body')
+    fields = ['title','body']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        naam = ""
+        val = Counsellordata.objects.filter(User=self.request.user)
+        if val:
+            naam = val[0].Name
+        val = Clientdata.objects.filter(User=self.request.user)
+        if val:
+            naam = val[0].Name    
+        form.instance.Name = naam
+        form.instance.brief = form.instance.body[:200] + "..."
+        return super().form_valid(form)
+    
 
 def about(request):
     user_check = True

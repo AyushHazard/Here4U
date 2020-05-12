@@ -33,10 +33,10 @@
         {%for post in object_list%}
 			<article>
             <header>
-            <h3>{{post.author}}</h3>
+            <h3>{{post.title}}</h3>
             </header>
 				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
-				<p>{{post.body}}</p>
+				<p>{{post.brief}}</p>
 				<ul class="actions">
 					<li><a href="{% url 'blog_detail' post.pk %}" class="button">Full Story</a></li>
 				</ul>
