@@ -1,46 +1,42 @@
-import React,{Component} from 'react';
+import React,{Component, useState} from 'react';
 import ReactDOM from 'react-dom';
 
 
 
-class Talk extends  Component{
+function Talk(props){
 
      
     
-    constructor(props){
-        super(props);
-        this.state = {username: ''};
+    
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleReset = this.handleReset.bind(this);
-    }
+    const state = {description: ''};
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    function handleChange(event) {
+        state.description = event.target.value;
+        // console.log(state.description)
       }
 
-    handleSubmit(event){
+      function handleSubmit(event){
 
         alert('Description Submitted !!');
-        event.preventDefault();
+        // event.preventDefault();
         // const element
-        console.log(this.state.value)
+        console.log(state.description)
         // ReactDOM.render({{"Hey"}}, document.getElementById('problem-description');)
-        this.setState({value: ''});
+        state.description = "";
     }
 
-    handleReset(event){
-        this.setState({value: ''});
+    function handleReset(event){
+        state.description = "";
     }
 
 
-    render(){
-        const {location} = this.props;
+    
+        const {location} = props;
 
+        const [recData,setRecData] = useState("");
 
-
-		console.log(this.props)
+		
 
 		const homeStatus = location.pathname==="/" ? "active":"";
 		const talkStatus = location.pathname ==="/talk" ? "active":"";
@@ -50,12 +46,22 @@ class Talk extends  Component{
 
 
         const data = async() =>{
-            const apiRes = await fetch("http://127.0.0.1:8000/api/list-counsellors/");
+            const apiRes = await fetch("http://hear4u.herokuapp.com/api/list-counsellors/");
             const resJSON = await apiRes.json();
             return resJSON;
         };
 
-        data().then(res=>console.log(res));
+        
+        console.log(data());
+
+        data().then(res=>{
+            setRecData(res);
+            const data = Array.from(recData);
+            data.map((counsellor)=>console.log(counsellor));
+            // console.log(data);
+        });
+
+
         
         return(
             <div>
@@ -91,10 +97,10 @@ class Talk extends  Component{
                 <h1>Talk to a counsellor</h1>
                 <h4>Please describe how you feel briefly. =) </h4>
             </header>
-            <form onSubmit = {this.handleSubmit} onReset = {this.handleReset}>
+            <form onSubmit = {handleSubmit} onReset = {handleReset}>
 
             <div className = "12u$">
-            <textarea id = 'problem-description' placeholder='Write your heart out !!' required = {true} onChange={this.handleChange} value = {this.state.value} rows = "6"></textarea>
+            <textarea id = 'problem-description' placeholder='Write your heart out !!' required = {true} onChange={handleChange} value = {state.value} rows = "6"></textarea>
             </div>
             
             <div className="12u$">
@@ -115,6 +121,32 @@ class Talk extends  Component{
 
             </form>
 
+            <section class="posts">
+
+            {(Array.from(recData)).map((counsellor)=>{
+            return(
+                <article>
+                    <header>
+                        <h2><a href="#">{counsellor.Name}</a></h2>
+                    </header>
+                    <a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
+                    <p>{counsellor.Summary}</p><p>{"\n"}
+                        <a href="#" class="button small icon fa-tag">Stress</a> <a href="#" class="button small icon fa-tag">Anger</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
+                    <ul class="actions">
+                        <li><a href="#" class="button">Message</a></li>
+                        <li><a href="#" class="button">Book an appointment</a></li>
+
+                    </ul>
+                </article>
+            )
+          })}
+
+			
+			
+			
+		    </section>
+
+
 
         	</div>
 
@@ -122,7 +154,7 @@ class Talk extends  Component{
 
         )
 
-    }
+    
 
 
 }

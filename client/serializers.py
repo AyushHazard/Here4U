@@ -39,7 +39,12 @@ class CounsellordataSerializer(serializers.ModelSerializer):
         
     class Meta:
         model = Counsellordata
-        fields = ['Name','Gender','Age','Profile_pic','Email','State','City','Education','Expertise','Summary','Consultation_start','Consultation_end']       
+        fields = ['Name','Gender','Age','Profile_pic','Email','State','City','Education','Expertise','Summary','Consultation_start','Consultation_end']
+
+class CounsellordataGETSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Counsellordata
+        fields = ['User','Name','Gender','Age','Profile_pic','Email','State','City','Education','Expertise','Summary','Consultation_start','Consultation_end']               
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

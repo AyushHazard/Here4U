@@ -344,7 +344,7 @@ class UpdateClientProfileView(UpdateAPIView):
 
 class ListCounsellorsView(ListAPIView):
     queryset = Counsellordata.objects.all()
-    serializer_class=CounsellordataSerializer
+    serializer_class=CounsellordataGETSerializer
     permission_classes=[
     permissions.AllowAny
     ]
