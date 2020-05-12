@@ -1,0 +1,29 @@
+{%extends "client/base.html"%}
+
+
+{%block intro%}{%endblock%}
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li class="active">{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+{% block content %}
+
+<section class="post">
+<h2>{{post.title}}</h2>
+<p>{{post.body}}</p>
+<H4 align="right"> By: {{ post.author}} </H4>
+</section>
+<div class="12u$">
+				<ul class="actions" align="centre">
+                    <li><a href="{% url 'blog'%}" class="button">Go Back to Blog Page</a></li>
+				</ul>
+	</div>
+{% endblock %}

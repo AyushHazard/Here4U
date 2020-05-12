@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 import json
-from django.views.generic import CreateView
+from django.views.generic import CreateView,ListView, DetailView
+from .models import Post
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 # from counsellor.models import *
@@ -20,6 +21,22 @@ from .serializers import *
 # from counsellor.models import *
 # Create your views here.
 
+#def blog(request):
+#    return render(request,'client/blog.html',{'posts': Post.objects.all()})
+class BlogView(ListView):
+    model = Post
+    template_name = 'client/blog.html'
+    ordering = ['-id']
+
+class BlogDetailView(DetailView):
+    model = Post
+    template_name='client/blog_detail.html'
+
+class AddArticleView(CreateView):
+    model = Post
+    template_name='client/blog_post.html'
+    fields = '__all__'
+    #fields = ('title','body')
 
 def about(request):
     user_check = True

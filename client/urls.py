@@ -3,7 +3,6 @@ from . import views
 from django.shortcuts import render, redirect
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import routers
-from rest_framework_jwt.views import obtain_jwt_token
 
 # from counsellor.urls import
 	
@@ -53,9 +52,7 @@ urlpatterns = [
     path('api/active-counsellors/',views.GetActiveCounsellorsView,name="active-counsellors-api"),
 
     path('api/logout/',views.LogOutView,name="logout-api"),
-    path('api/login/',views.LogInView.as_view(),name="login-api"),
-
-    path('api/token-auth/', obtain_jwt_token)
+    path('api/login/',views.LogInView.as_view(),name="login-api")
 ]
 
 # urlpatterns = urlpatterns+router.urls
