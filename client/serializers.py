@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.fields import CurrentUserDefault
 from .models import *
 from django.contrib.auth import authenticate, login, logout
+from rest_framework_jwt.settings import api_settings
 
 class ClientdataSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
@@ -46,8 +47,18 @@ class CounsellordataGETSerializer(serializers.ModelSerializer):
         model = Counsellordata
         fields = ['User','Name','Gender','Age','Profile_pic','Email','State','City','Education','Expertise','Summary','Consultation_start','Consultation_end']               
 
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class UserSerializerWithToken(serializers.ModelSerializer):
+
+    token = serializers.SerializerMethodField()
+    password = serializers.CharField(write_only=True) # We also need to make sure the serializer recognizes and stores the submitted password, but doesn’t include it in the returned JSON. So we add the ‘password’ field to fields, but above that also specify that the password should be write only.
+
+    def get_token(self, obj):
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+        payload = jwt_payload_handler(obj)
+        token = jwt_encode_handler(payload)
+        return token
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -63,7 +74,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id','username','password']
+        fields = ['token','username','password']
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username',)
+
+
+
 
 class DescriptionSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
