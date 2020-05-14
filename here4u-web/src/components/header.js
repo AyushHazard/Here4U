@@ -9,11 +9,53 @@ class Header extends  Component{
 
     render(){
 
+		const location = this.props.location;
+
+		console.log({location});
+
+		const homeStatus = location.pathname==="/" ? "active":"";
+		const talkStatus = location.pathname ==="/talk" ? "active":"";
+		const sessionsStatus = location.pathname ==="/active-sessions" ? "active":"";
+		const faqStatus = location.pathname ==="/faqs" ? "active":"";
+        const aboutStatus = location.pathname ==="/about" ? "active":"";
 		
+		console.log(this.props);
+		
+		let intro = <div></div>;
+
+		let buttons;
+
+		if(this.props.extra.logged_in===true)
+		{
+			buttons = <ul className="actions">
+			<li><a href="#" onClick={this.props.extra.handle_logout} className="button">Log Out</a></li>
+		</ul>
+		}
+		else
+		{
+			buttons = <ul className="actions">
+			<li><a href="/login" className="button">Log in</a></li>
+			<li><a href="/signup" className="button">Sign Up</a></li>
+		</ul>
+		}
+
+		if(homeStatus==="active")
+		{
+			intro = <div id="intro">
+			<h1>Here4U</h1>
+			<p>An online counselling platform designed by the students of <a href="http://www.iitrpr.ac.in">IIT Ropar.</a><br />
+			</p>
+			<ul class="actions">
+				<li><a href="#header" class="button icon solo fa-arrow-down scrolly">Continue</a></li>
+			</ul>
+		</div>	
+		}
 
         return(
 
         	<div>
+				{intro}
+
 
         	<header id="header">
 				<a href="/" className="logo">Here4U</a>
@@ -21,23 +63,19 @@ class Header extends  Component{
 
 			<nav id="nav">
 				<ul className="links">
-					<li id = "home-stat"><a href="/">Home</a></li>
-					<li id = "talk-stat"><a href="/talk">Talk to a Counsellor</a></li>
-					<li id = "active-stat"><a href="/active-sessions">Active Sessions</a></li>
-					<li id = "session-stat"><a href="/faqs">FAQs</a></li>
-					<li id = "about-stat"><a href="/about">About Us</a></li>
+					<li className = {homeStatus}><a href="/">Home</a></li>
+					<li className = {talkStatus}><a href="/talk">Talk to a Counsellor</a></li>
+					<li className = {sessionsStatus}><a href="/active-sessions">Active Sessions</a></li>
+					<li className = {faqStatus}><a href="/faqs">FAQs</a></li>
+					<li className = {aboutStatus}><a href="/about">About Us</a></li>
 				</ul>
 				
-				<ul className="actions">
-					<li><a href="/login" className="button">Log in</a></li>
-					<li><a href="/signup" className="button">Sign Up</a></li>
-				</ul>
+				{buttons}
 				
 			</nav>
 
+            </div>
 
-
-        	</div>
 
         )
 

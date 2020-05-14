@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.shortcuts import render, redirect
-from rest_framework.authtoken.views import obtain_auth_token
+
 from rest_framework import routers
 from .views import BlogView,BlogDetailView,AddArticleView
 from rest_framework_jwt.views import obtain_jwt_token
@@ -35,7 +35,7 @@ urlpatterns = [
     
     # API URLS
     #api auth
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    
     path('api/signup/',views.CreateUserView.as_view(),name='signup-api'),
     path('api/create-profile/',views.CreateClientProfileView.as_view(),name="create-profile-api"),
     path('api/create-profile-counsellor/',views.CreateCounsellorProfileView.as_view(),name="create-profile-counsellor-api"),
@@ -60,7 +60,9 @@ urlpatterns = [
     path('api/logout/',views.LogOutView,name="logout-api"),
     path('api/login/',views.LogInView.as_view(),name="login-api"),
 
-    path('api/token-auth/',obtain_jwt_token)
+    path('api/token-auth/',obtain_jwt_token),
+    path('api/current-user/',views.current_user,name ="current-user")
+
 ]
 
 # urlpatterns = urlpatterns+router.urls

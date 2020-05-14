@@ -306,8 +306,17 @@ def GetUserId(request):
     message = [{"id":user_id}]
     return Response(message)
 
+@api_view(['GET'])
+def current_user(request):
+    """
+    Determine the current user by their token, and return their data
+    """
+    
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)    
+
 class CreateUserView(CreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserSerializerWithToken
     permission_classes = [
         permissions.AllowAny
     ]
