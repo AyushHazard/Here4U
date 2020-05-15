@@ -412,6 +412,7 @@ def GetDescriptionView(request,pk):
 @api_view(('GET',))
 def UserTypeCheck(request):
     user_check = True
+    print(1)
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
@@ -464,7 +465,7 @@ NOTE  that the format for post should be like the example given below
                                                                             {"password":"123"}
                                                                         ]
 '''
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 class LogInView(APIView):
     def post(self, request, format=None):
         
