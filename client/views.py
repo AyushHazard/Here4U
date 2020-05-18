@@ -467,7 +467,7 @@ NOTE  that the format for post should be like the example given below
                                                                             {"password":"123"}
                                                                         ]
 '''
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 class LogInView(APIView):
     def post(self, request, format=None):
         
