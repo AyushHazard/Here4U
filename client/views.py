@@ -302,7 +302,7 @@ def updateProfileCounsellor(request):
 @api_view(('GET',))
 def GetUserId(request):
     user_id = request.user.id
-    message = [{"id":user_id}]
+    message = {"id":user_id}
     return Response(message)
 
 @api_view(['GET'])
@@ -310,8 +310,10 @@ def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
+
     
     serializer = UserSerializer(request.user)
+    print(serializer.data)
     return Response(serializer.data)    
 
 class CreateUserView(CreateAPIView):
@@ -336,7 +338,7 @@ def GetClientView(request,pk):
     #     print(i.username)
     return Response(client.data)
 
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 @api_view(('GET',))
 def GetCounsellorView(request,pk):
     # description = Description.objects.all()#.filter(pk=pk)
@@ -417,9 +419,9 @@ def UserTypeCheck(request):
             user_check = False
     print(request.user)
     if user_check:
-        message = [{"is_client": True,"status":"client"}]
+        message = {"status":"client"}
     else:
-        message = [{"is_client": False,"status":"counsellor"}]
+        message = {"status":"counsellor"}
                 
     return Response(message)    
 

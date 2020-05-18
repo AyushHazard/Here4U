@@ -1,7 +1,7 @@
 import React,{Component, useState} from 'react';
 import ReactDOM from 'react-dom';
 import Header from './header.js';
-
+import {NavLink} from 'react-router-dom';
 
 function Talk(props){
 
@@ -106,7 +106,7 @@ function Talk(props){
                         <a href="#" class="button small icon fa-tag">Stress</a> <a href="#" class="button small icon fa-tag">Anger</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
                     <ul class="actions">
                         <li><a href="#" class="button">Message</a></li>
-                        <li><a href="#" class="button">Book an appointment</a></li>
+                        <li><NavLink to = {`/book/${counsellor.User}`}><a class="button">Book an appointment</a></NavLink></li>
 
                     </ul>
                 </article>

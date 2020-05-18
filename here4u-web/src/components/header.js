@@ -17,13 +17,18 @@ class Header extends  Component{
 		const talkStatus = location.pathname ==="/talk" ? "active":"";
 		const sessionsStatus = location.pathname ==="/active-sessions" ? "active":"";
 		const faqStatus = location.pathname ==="/faqs" ? "active":"";
-        const aboutStatus = location.pathname ==="/about" ? "active":"";
+		const aboutStatus = location.pathname ==="/about" ? "active":"";
+		const activeClientsStatus = location.pathname ==="/active-clients"?"active":"";
 		
 		console.log(this.props);
 		
 		let intro = <div></div>;
 
 		let buttons;
+
+		
+
+
 
 		if(this.props.extra.logged_in===true)
 		{
@@ -38,6 +43,20 @@ class Header extends  Component{
 			<li><a href="/signup" className="button">Sign Up</a></li>
 		</ul>
 		}
+
+		let middle;
+		console.log(this.props.extra.status)
+
+		if(this.props.extra.user_type==="counsellor")
+		{
+			middle = <div><li className = {activeClientsStatus}><a href="/active-clients">Active Clients</a></li></div>
+		}
+		else{
+			
+			middle = <div><li className = {talkStatus}><a href="/talk">Talk to a Counsellor</a></li><li className = {sessionsStatus}><a href="/active-sessions">Active Sessions</a></li></div>
+		}
+
+		console.log({middle});
 
 		if(homeStatus==="active")
 		{
@@ -64,8 +83,7 @@ class Header extends  Component{
 			<nav id="nav">
 				<ul className="links">
 					<li className = {homeStatus}><a href="/">Home</a></li>
-					<li className = {talkStatus}><a href="/talk">Talk to a Counsellor</a></li>
-					<li className = {sessionsStatus}><a href="/active-sessions">Active Sessions</a></li>
+					{middle}
 					<li className = {faqStatus}><a href="/faqs">FAQs</a></li>
 					<li className = {aboutStatus}><a href="/about">About Us</a></li>
 				</ul>

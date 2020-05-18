@@ -120,7 +120,6 @@ class About extends  Component{
             <li>Divyanshu Mathpal</li>
             <li>Shobit Gupta</li>
             <li>Samreet Singh Dhami</li>
-            <li>Tanya Gupta</li>
         </ul>
     </div>
 	</section>

@@ -9,6 +9,7 @@ import Faqs from './components/faqs.js';
 import ActiveSessions from './components/active-sessions.js';
 import Login from './components/login.js';
 import SignUp from './components/signup.js';
+import Book from './components/book.js';
 
 function Routes(props){
 
@@ -22,6 +23,7 @@ function Routes(props){
           <Route exact path = "/talk" render = {(props)=><Talk {...props} extra = {extra}/>}/>
           <Route exact path = "/faqs" render = {(props)=><Faqs {...props} extra = {extra}/>}/>
           <Route exact path = "/active-sessions" render = {(props)=><ActiveSessions {...props} extra = {extra}/>} />
+          <Route path = "/book/:id" render = {(props)=><Book {...props} extra = {extra}/>} />
           <Route exact path = "/login" render = {(props)=><Login {...props} extra = {extra}/>} />
           <Route exact path = "/signup" render = {(props)=><SignUp {...props} extra = {extra}/>} />
       </Switch>

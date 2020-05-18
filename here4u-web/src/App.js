@@ -8,7 +8,9 @@ class App extends Component{
     super(props);
     this.state = {
       logged_in: localStorage.getItem('token') ? true : false,
-      username: ''
+      username: '',
+      user_type:'',
+      user_id:''
     };
   }
 
@@ -21,8 +23,27 @@ class App extends Component{
       })
         .then(res => res.json())
         .then(json => {
-          this.setState({ username: json.username });
+          this.setState({ username: json.username, user_id:json.id });
+          if(json.detail)
+          {
+            localStorage.removeItem('token');
+            this.setState({ logged_in: false, username: '' });
+          }
+          console.log(json)
         });
+
+        fetch('http://127.0.0.1:8000/api/check/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ user_type: json.status });
+          console.log(this.state);
+        });
+
+
     }
   }
 
@@ -44,6 +65,17 @@ class App extends Component{
           username: json.user.username
         });
       });
+
+      fetch('http://127.0.0.1:8000/api/check/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ user_type: json.status });
+          console.log(this.state);
+        });
   };
 
   handle_logout = () => {
@@ -79,7 +111,10 @@ class App extends Component{
         <Routes handle_login={this.handle_login} 
         handle_signup={this.handle_signup} 
         logged_in={this.state.logged_in} 
-        handle_logout={this.handle_logout}/>
+        handle_logout={this.handle_logout}
+        user_type = {this.state.user_type}
+        username = {this.state.username}
+        user_id = {this.state.user_id}/>
         <Footer/>
       
     </div>
