@@ -82,25 +82,73 @@ def home(request):
 
     return render(request,'client/home.html',{"client":user_check})
             
+@login_required
 def messages(request):
     user_check = True
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
             user_check = False
-    
-    return render(request,'client/messages.html',{"client":user_check})    
 
-def messageDetail(request):
+    all_messages = []
+    for i in ActiveMessages.objects.filter(sender = request.user):
+        all_messages.append(i)
+    
+    for i in ActiveMessages.objects.filter(reciever = request.user):
+        all_messages.append(i) 
+
+    other = []
+    Current = request.user
+
+    for i in all_messages:
+        if i.sender == Current:
+            other.append(i.reciever)
+        else:
+            other.append(i.sender)    
+
+    
+    return render(request,'client/messages.html',{"client":user_check,"messages":other})    
+
+@login_required
+def messageDetail(request,pk):
     user_check = True
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
             user_check = False
     # pk will contain the reciever's id
-    # reviecer = User.objects.get(id=pk)
+    # reciever = User.objects.get(id=pk)
 
-    return render(request,'client/message-detail.html',{"client":user_check})
+    Sender = request.user
+    Reciever = User.objects.get(id=pk)
+
+    conversation = []
+
+    for i in Message.objects.filter(sender = Sender, reciever = Reciever):
+        conversation.append(i)
+
+    for i in Message.objects.filter(sender = Reciever, reciever = Sender):
+        conversation.append(i)
+
+    conversation.sort(key = lambda x: x.time, reverse = False)    
+    
+
+    print(Sender)
+    print(Reciever)
+
+    if request.method=='POST':
+        print(request.POST["message-body"])
+        found = ActiveMessages.objects.filter(sender = Sender)
+        dus = ActiveMessages.objects.filter(reciever = Sender)
+        if not found and not dus:
+            ActiveMessages.objects.create(sender = Sender, reciever = Reciever)
+
+        new_message = Message.objects.create(sender = Sender,reciever = Reciever, body = request.POST["message-body"])
+        print(new_message.time)
+        return redirect(messageDetail,pk=pk)
+
+
+    return render(request,'client/message-detail.html',{"client":user_check,"convo":conversation})
 
 
     
@@ -143,6 +191,9 @@ def updateProfile(request):
         form = UpdateProfileForm(request.POST)
         if form.is_valid():
             # user = Clientdata(**form.cleaned_data)
+            curr = request.user
+            curr.first_name = request.POST["Name"]
+            curr.save()
             instance = form.save(commit=False)
             instance.User = request.user
             instance.save()
@@ -294,6 +345,9 @@ def updateProfileCounsellor(request):
     if request.method=='POST':
         form = UpdateProfileFormCounsellor(request.POST)
         if form.is_valid():
+            curr = request.user
+            curr.first_name = request.POST["Name"]
+            curr.save()
             instance = form.save(commit=False)
             instance.User = request.user
             instance.save()

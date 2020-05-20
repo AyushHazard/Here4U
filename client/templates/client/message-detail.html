@@ -25,12 +25,20 @@
 		<li><a href="#" class = "button fit small">Older messages</a></li>
 
 	</ul>
+	<p>
 
+ {%for mess in convo%}
+
+ <b>{{mess.sender.first_name}}: </b> {{mess.body}}
+	<br/>
+
+
+ {%endfor%}
+
+</p>
 	
 
-<p><b>Tommy: </b> Hello !
-	<br/>
-<b>Linda: </b> Hello !</p>
+
 
 <form method="POST">
 	{% csrf_token %}

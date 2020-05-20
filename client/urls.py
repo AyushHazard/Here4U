@@ -32,7 +32,7 @@ urlpatterns = [
     path('blog/blog_detail/<int:pk>/',BlogDetailView.as_view(),name="blog_detail"),
     path('blog/add_post/',AddArticleView.as_view(),name="add_post"),
     path('messages/',views.messages,name = "messages"),
-    path('messages-detail/',views.messageDetail,name = "message-detail"),
+    path('messages-detail/<int:pk>/',views.messageDetail,name = "message-detail"),
 
     
     # API URLS

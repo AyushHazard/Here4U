@@ -15,18 +15,19 @@
 {%block content%}
 
 
+{%for Users in messages%}
 
 
 
 <ul class="actions fit">
-	<li><a href="#" class = "button fit">Tommy: Hello</a></li>
-	<li><input type="text" name="mess"/></li>
-	<li><a href="{%url 'message-detail'%}" class = "button special big">Message</a></li>
+	<li><a href="#" class = "button fit">{{Users.first_name}}</a></li>
+	
+	<li><a href="{% url 'message-detail' pk=Users.id %}" class = "button special big">Message</a></li>
 </ul>
 
 
 
-
+{%endfor%}
 
 
 

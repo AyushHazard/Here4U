@@ -72,7 +72,14 @@ class Message(models.Model):
     sender = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sender')   
     reciever = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='reciever')
     body = models.TextField()
-    time = models.TimeField(null = True,auto_now = False,auto_now_add = False)
+    time = models.TimeField(null = True,auto_now = True,auto_now_add = False)
+
+    def __str__(self):
+        return self.body
+
+class ActiveMessages(models.Model):
+    sender = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='active_sender')   
+    reciever = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='active_reciever')            
 
 class Post(models.Model):
     title = models.CharField(max_length=255)

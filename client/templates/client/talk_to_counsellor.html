@@ -90,7 +90,7 @@
 				<p>{{counsellor.Summary}}<br>
 					<a href="#" class="button small icon fa-tag">Science</a> <a href="#" class="button small icon fa-tag">Genuis</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
 				<ul class="actions">
-					<li><a href="#" class="button">Message</a></li>
+					<li><a href="{%url 'message-detail' pk=counsellor.User.id %}" class="button">Message</a></li>
 					<li><a href="{%url 'book-appointment' pk=counsellor.pk %}" class="button">Book an appointment</a></li>
 
 				</ul>
