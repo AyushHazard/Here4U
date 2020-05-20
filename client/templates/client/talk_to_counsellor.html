@@ -13,6 +13,7 @@
  {%block session_state%}<li>{%endblock%}
  {%block faqs_state%}<li>{%endblock%}
  {%block blog_state%}<li>{%endblock%}
+ 	{%block message_state%}<li>{%endblock%}
  {%block about_state%}<li>{%endblock%}
 
 
@@ -51,7 +52,7 @@
 					{%if user.is_authenticated%}
 					<li><input type="submit" value="Submit" class="special" /></li>
 					{%else%}
-					<li><a href="{%url 'sign-up'%}" class="button">Login/ Signup to submit</a></li>
+					<li><a href="{%url 'sign-up'%}" class="special button" >Login/ Signup to submit</a></li>
 					{%endif%}
 					<li><input type="reset" value="Reset" /></li>
 					<li>

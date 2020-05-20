@@ -56,8 +56,9 @@
 					
 					{%endif%}
 
-					{%block faqs_state%}{%endblock%}<a href="{%url 'faqs'%}">FAQs</a></li>
+					<!-- {%block faqs_state%}{%endblock%}<a href="{%url 'faqs'%}">FAQs</a></li> -->
 					{%block blog_state%}{%endblock%}<a href="{%url 'blog'%}">Blog</a></li>
+					{%block message_state%}{%endblock%}<a href="{%url 'messages'%}">Chats</a></li>
 
 					{%block about_state%}{%endblock%}<a href="{%url 'client-about'%}">About Us</a></li>
 				</ul>
@@ -81,6 +82,12 @@
 
 				{% block content %}{% endblock %}
 
+				<center><h3>Quick Links</h3></center>
+				<ul class="actions">
+						<li><a href="{%url 'faqs'%}" class="button">faqs</a></li>
+						<li><a href="{%url 'blog'%}" class="button">Blogs</a></li>
+				</ul>
+
 			</div>
 
 			<div id = "main"><center><h2> Contact Us </h2></center></div>
@@ -90,6 +97,7 @@
 			
 				<section>
 				<center>
+
 				<div class="expert_thumb">
                         <img src="../../static/client/images/logo.png" alt="" height="320" width="300">
                     </div>
@@ -105,6 +113,8 @@
 					{%endif%}
 					<p>Use your IIT Ropar Email id to sign up<br />
 					</p>
+					
+				
 					</center>
 					<!--
 					<form method="post" action="#">

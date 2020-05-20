@@ -82,7 +82,26 @@ def home(request):
 
     return render(request,'client/home.html',{"client":user_check})
             
-        
+def messages(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+    
+    return render(request,'client/messages.html',{"client":user_check})    
+
+def messageDetail(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+    # pk will contain the reciever's id
+    # reviecer = User.objects.get(id=pk)
+
+    return render(request,'client/message-detail.html',{"client":user_check})
+
 
     
 

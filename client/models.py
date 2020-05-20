@@ -68,6 +68,12 @@ class ActiveClient(models.Model):
     Client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_coun')
     Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
 
+class Message(models.Model):
+    sender = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sender')   
+    reciever = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='reciever')
+    body = models.TextField()
+    time = models.TimeField(null = True,auto_now = False,auto_now_add = False)
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
