@@ -72,9 +72,7 @@ def faqs(request):
             
     return render(request,'client/faqs.html',{"client":user_check})
 
-def videoCall(request):
-
-    return render(request,'client/video-call.html')
+      
 
 def home(request):
     user_check = True
@@ -84,6 +82,37 @@ def home(request):
             user_check = False
 
     return render(request,'client/home.html',{"client":user_check})
+
+@login_required
+def videoCall(request):
+
+    return render(request,'client/video-call.html')
+
+@login_required
+def interfaceClient(request,pk):
+
+    Client = User.objects.get(id=pk)
+
+    curr_links = VideoCallLink.objects.filter(counsellor=request.user)
+
+
+    if request.method=='POST':
+        VideoCallLink.objects.filter(counsellor=request.user).delete()
+        video_link = VideoCallLink.objects.create(counsellor = request.user,client = Client, link = request.POST["videocall-link"])
+
+        return redirect(interfaceClient,pk=pk)
+
+
+    return render(request,'client/connect-client.html',{"links":curr_links})
+
+@login_required
+def interfaceCounsellor(request,pk):
+
+    Counsellor = User.objects.get(id=pk)
+
+    curr_links = VideoCallLink.objects.filter(counsellor=Counsellor)
+
+    return render(request,'client/connect-counsellor.html',{"links":curr_links})      
             
 @login_required
 def messages(request):

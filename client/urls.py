@@ -34,6 +34,8 @@ urlpatterns = [
     path('messages/',views.messages,name = "messages"),
     path('messages-detail/<int:pk>/',views.messageDetail,name = "message-detail"),
     path('videocall/',views.videoCall,name = "video-call"),
+    path('connect-client/<int:pk>/',views.interfaceClient,name="connect-client"),
+    path('connect-counsellor/<int:pk>/',views.interfaceCounsellor,name="connect-counsellor"),
 
     
     # API URLS

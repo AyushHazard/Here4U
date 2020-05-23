@@ -30,6 +30,14 @@ class Description(models.Model):
     def __str__(self):
         return self.Message
 
+class VideoCallLink(models.Model):
+    counsellor =  models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
+    client =  models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='cl_video')
+    link = models.TextField()
+
+    def __str__(self):
+        return self.link
+
 class ActiveCounsellor(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_clside')
     Counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_clside')

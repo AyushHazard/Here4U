@@ -1,0 +1,28 @@
+{%extends "client/base.html"%}
+
+{%block intro%}{%endblock%}
+
+{%block home_state%}<li>{%endblock%}
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li>{%endblock%}
+	{%block message_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+
+{%block content%}
+
+<h3>Please wait until your counsellor shares the video call link</h3>
+
+<div id = "main">
+	<b>Please keep refreshing the page, as once the link is shared it will appear below. Please open it to join the call.
+	<br><br>
+	
+	{%for link in links%}
+	The active video call link is : <a href={{link}} target="_blank" >{{link}}</a></b>
+	{%endfor%}
+
+</div>
+
+{%endblock%}
