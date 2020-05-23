@@ -72,6 +72,9 @@ def faqs(request):
             
     return render(request,'client/faqs.html',{"client":user_check})
 
+def videoCall(request):
+
+    return render(request,'client/video-call.html')
 
 def home(request):
     user_check = True
