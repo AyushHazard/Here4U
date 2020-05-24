@@ -90,10 +90,22 @@ def videoCall(request):
 
 @login_required
 def interfaceClient(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
 
     Client = User.objects.get(id=pk)
+    # present = False
 
-    curr_links = VideoCallLink.objects.filter(counsellor=request.user)
+    try:    
+        curr_links = VideoCallLink.objects.get(counsellor=request.user)
+        # present = True
+    except:
+        curr_links = None   
+
+    # print("HEYA")     
 
 
     if request.method=='POST':
@@ -103,17 +115,42 @@ def interfaceClient(request,pk):
         return redirect(interfaceClient,pk=pk)
 
 
-    return render(request,'client/connect-client.html',{"links":curr_links})
+    return render(request,'client/connect-client.html',{"links":curr_links,"client":user_check})
 
 @login_required
 def interfaceCounsellor(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
 
     Counsellor = User.objects.get(id=pk)
+    # present = False
 
-    curr_links = VideoCallLink.objects.filter(counsellor=Counsellor)
+    try:
+        curr_links = VideoCallLink.objects.get(counsellor=Counsellor,client = request.user)
+        # present = True
+    except:
+        curr_links = None
+         
 
-    return render(request,'client/connect-counsellor.html',{"links":curr_links})      
+    return render(request,'client/connect-counsellor.html',{"links":curr_links,"client":user_check})      
             
+def deleteLink(request,pk):
+
+    
+    link = VideoCallLink.objects.filter(pk=pk)
+
+    if link:
+        ppk = link[0].client.id
+    else:
+        ppk = None    
+
+    link.delete()    
+
+    return redirect(interfaceClient,pk=ppk)
+
 @login_required
 def messages(request):
     user_check = True
@@ -170,9 +207,10 @@ def messageDetail(request,pk):
 
     if request.method=='POST':
         print(request.POST["message-body"])
-        found = ActiveMessages.objects.filter(sender = Sender)
-        dus = ActiveMessages.objects.filter(reciever = Sender)
+        found = ActiveMessages.objects.filter(sender = Sender, reciever = Reciever)
+        dus = ActiveMessages.objects.filter(reciever = Sender, sender = Reciever)
         if not found and not dus:
+            print("NOT FOUND")
             ActiveMessages.objects.create(sender = Sender, reciever = Reciever)
 
         new_message = Message.objects.create(sender = Sender,reciever = Reciever, body = request.POST["message-body"])

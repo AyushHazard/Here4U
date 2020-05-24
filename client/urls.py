@@ -36,6 +36,7 @@ urlpatterns = [
     path('videocall/',views.videoCall,name = "video-call"),
     path('connect-client/<int:pk>/',views.interfaceClient,name="connect-client"),
     path('connect-counsellor/<int:pk>/',views.interfaceCounsellor,name="connect-counsellor"),
+    path('delete-link/<int:pk>/',views.deleteLink,name="delete-link"),
 
     
     # API URLS

@@ -19,9 +19,12 @@
 	<b>Please keep refreshing the page, as once the link is shared it will appear below. Please open it to join the call.
 	<br><br>
 	
-	{%for link in links%}
-	The active video call link is : <a href={{link}} target="_blank" >{{link}}</a></b>
-	{%endfor%}
+	{%if links%}
+Active Call Link : <a href={{links}} target="_blank">{{links}}</a></b>
+	{%else%}
+No Active Links </b>
+	{%endif%}
+	
 
 </div>
 

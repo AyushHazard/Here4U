@@ -31,9 +31,12 @@ Your client will follow this link to join you in the call.
 <br>
 <br>
 
-	{%for link in links%}
-Active Link : <a href={{link}} target="_blank">{{link}}</a></b>
-	{%endfor%}
+	{%if links%}
+Active Call Link : <a href={{links}} target="_blank">{{links}}</a></b>
+	{%else%}
+	No Active Links: </b>
+	{%endif%}
+	
 
 </div>
 
@@ -44,11 +47,16 @@ Active Link : <a href={{link}} target="_blank">{{link}}</a></b>
 	{%csrf_token%}
 	<input type="text" name="videocall-link" placeholder="Paste the URL here."/>
 	<p><br></p>
-	<input type="submit" class="special button big" value="Send URL">
 	
+	<input type="submit" class="special button big" value="Send URL"/>
+	<p>&ensp;&ensp;&ensp;</p>
+	{%if links%}
+	<a class = "button big" href="{%url 'delete-link' pk=links.pk%}">Delete Link !</a>
+	{%endif%}
 	
-
 </form>
+
+	
 
 
 
