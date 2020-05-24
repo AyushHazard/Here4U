@@ -30,9 +30,9 @@
 				</header>
 				<p><b>Booking Time: {{time}}</b></p>
 				<ul class="actions">
-					<li><a href="#" class="button small">Cancel</a></li>
-					<li><a href="{%url 'message-detail' pk=client.User.id %}" class="button special">Message</a></li>
-					<li><a href="{%url 'connect-client' pk=client.User.id %}" class="button special">Video Call</a></li>
+					<li><a href="{%url 'view-description' pk=client.User.id %}" class="button small">Case Report</a></li>
+					<li><a href="{%url 'message-detail' pk=client.User.id %}" class="button small special">Message</a></li>
+					<li><a href="{%url 'connect-client' pk=client.User.id %}" class="button small special">Video Call</a></li>
 
 				</ul>
 			</article>

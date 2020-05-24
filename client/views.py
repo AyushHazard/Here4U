@@ -84,6 +84,40 @@ def home(request):
     return render(request,'client/home.html',{"client":user_check})
 
 @login_required
+def clientDescription(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+    Client = User.objects.get(id=pk) 
+    ClientObj = None      
+    userDescription = None    
+    findBooking = ActiveCounsellor.objects.filter(user=Client,Counsellor=request.user)
+
+    # We need to ensure that only the counsellor that the user has booked can view the description and not one else even by
+    # Editing the urls
+
+    if user_check==False and findBooking:
+        userDescription = Description.objects.filter(User=Client)
+        ClientObj = Clientdata.objects.get(User=Client) 
+
+    if Client==request.user:
+        userDescription = Description.objects.filter(User=Client)   # If the user himself wants to see the description
+        ClientObj = Clientdata.objects.get(User=Client) 
+
+
+        
+    if userDescription:
+        userDescription = userDescription[0]
+
+    # print(userDescription)    
+
+    
+    return render(request,'client/view-description.html',{"client":user_check,"description":userDescription,"profData":ClientObj})    
+
+@login_required
 def videoCall(request):
 
     return render(request,'client/video-call.html')

@@ -1,0 +1,47 @@
+{%extends "client/base.html"%}
+
+
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li>{%endblock%}
+{%block message_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+{%block content%}
+<br>
+	<div id = "main">
+	
+	{%if profData%}
+	<h2>{{description.User.first_name}}</h2>
+	<br>
+	<b>Age : {{profData.Age}}
+	&ensp;&ensp;&ensp;
+	Gender : {{profData.Gender}}</b>
+	<br><br><br>
+	<b>Marital Status : {{profData.Marital_Status}}
+	&ensp;&ensp;&ensp;
+	Educational Status : {{profData.Educational_Status}}</b>
+	<br><br><br>
+		{%if description%}
+		<b>Problem : </b>{{description.Message}}
+		<br>
+		{%else%}
+		<b>No Problem Description availaible !</b>
+
+		{%endif%}
+	{%else%}
+	<b>You're not authorized to view this !</b>
+	{%endif%}	
+	
+	</div>
+
+
+
+{%endblock%}

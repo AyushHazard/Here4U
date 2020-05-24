@@ -37,6 +37,7 @@ urlpatterns = [
     path('connect-client/<int:pk>/',views.interfaceClient,name="connect-client"),
     path('connect-counsellor/<int:pk>/',views.interfaceCounsellor,name="connect-counsellor"),
     path('delete-link/<int:pk>/',views.deleteLink,name="delete-link"),
+    path('view-description/<int:pk>',views.clientDescription,name='view-description'),
 
     
     # API URLS
