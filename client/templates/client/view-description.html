@@ -19,7 +19,7 @@
 	<div id = "main">
 	
 	{%if profData%}
-	<h2>{{description.User.first_name}}</h2>
+	<h2>{{profData.Name}}</h2>
 	<br>
 	<b>Age : {{profData.Age}}
 	&ensp;&ensp;&ensp;
@@ -28,10 +28,17 @@
 	<b>Marital Status : {{profData.Marital_Status}}
 	&ensp;&ensp;&ensp;
 	Educational Status : {{profData.Educational_Status}}</b>
-	<br><br><br>
+	<ul class = "actions">
+	<li><a href = "#"class= "button special">Session Notes</a></li>
+	</ul>
+	<br>
+
 		{%if description%}
 		<b>Problem : </b>{{description.Message}}
 		<br>
+		{%if description.extra_data%}
+		<object data = {{description.extra_data}} >HEy</object>
+		{%endif%}
 		{%else%}
 		<b>No Problem Description availaible !</b>
 
@@ -39,6 +46,7 @@
 	{%else%}
 	<b>You're not authorized to view this !</b>
 	{%endif%}	
+
 	
 	</div>
 

@@ -30,6 +30,15 @@ class Description(models.Model):
     def __str__(self):
         return self.Message
 
+class sessionNotes(models.Model):
+    client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sess_cl')
+    counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sess_coun')
+    title = models.CharField(max_length = 200,blank = True,null = True)
+    time = models.TimeField(null = True,auto_now = True,auto_now_add = False)
+    file = models.FileField(upload_to='client/uploads',null=True,blank=True)
+    about = models.TextField(null = True,blank = True)
+
+
 class VideoCallLink(models.Model):
     counsellor =  models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
     client =  models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='cl_video')

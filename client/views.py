@@ -112,10 +112,21 @@ def clientDescription(request,pk):
     if userDescription:
         userDescription = userDescription[0]
 
-    # print(userDescription)    
+    # print(userDescription.extra_data)    
 
     
     return render(request,'client/view-description.html',{"client":user_check,"description":userDescription,"profData":ClientObj})    
+
+def sessNotes(request,pk):
+
+    Client = User.objects.get(id=pk)
+
+    if request.method=='POST':
+        sess_notes = sessionNotes(client=Client,counsellor=request.user,title=request.POST["title"],about=request.POST["about"])
+        if request.POST.find('notesFile'):
+            sess_notes.file = request.POST['notesFile']
+        sess_notes.save()
+    return render(request,'client/session-notes.html')    
 
 @login_required
 def videoCall(request):
@@ -131,6 +142,7 @@ def interfaceClient(request,pk):
             user_check = False
 
     Client = User.objects.get(id=pk)
+    name = Client.first_name
     # present = False
 
     try:    
@@ -149,7 +161,7 @@ def interfaceClient(request,pk):
         return redirect(interfaceClient,pk=pk)
 
 
-    return render(request,'client/connect-client.html',{"links":curr_links,"client":user_check})
+    return render(request,'client/connect-client.html',{"links":curr_links,"client":user_check,"name":name})
 
 @login_required
 def interfaceCounsellor(request,pk):

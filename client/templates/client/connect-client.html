@@ -14,6 +14,7 @@
 {%block content%}
 
 
+<h2>A Video call to {{name}}</h2>
 
 <h3>Please begin the video-call and paste the url in the box below.</h3>
 
@@ -37,13 +38,7 @@ Active Call Link : <a href={{links}} target="_blank">{{links}}</a></b>
 	No Active Links: </b>
 	{%endif%}
 	
-
-</div>
-
-
-
-
-<form method="POST">
+	<form method="POST">
 	{%csrf_token%}
 	<input type="text" name="videocall-link" placeholder="Paste the URL here."/>
 	<p><br></p>
@@ -55,6 +50,15 @@ Active Call Link : <a href={{links}} target="_blank">{{links}}</a></b>
 	{%endif%}
 	
 </form>
+
+	
+
+</div>
+
+
+
+
+
 
 	
 
