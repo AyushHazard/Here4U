@@ -19,6 +19,13 @@ urlpatterns = [
     path('signup/',views.signup,name="sign-up"),
     path('update-profile/',views.updateProfile,name="update-profile"),
 
+    path('edit-profile/',views.editProfileClient,name="edit-profile"),
+    path('edit-profile-counsellor/',views.editProfileCounsellor,name="edit-profile-counsellor"),
+
+    path('delete-description/<int:pk>/',views.deleteDescription,name="delete-description"),
+    path('delete-booking/<int:pk>/',views.deleteBooking,name="delete-booking"),
+
+
     path('my-profile/',views.myProfile,name="my-profile"),
     path('counsellor-profile/<int:pk>/',views.counsellorProfile,name="counsellor-profile"),
     # path('accounts/login/',views.login,name='login'),

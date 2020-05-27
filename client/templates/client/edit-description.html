@@ -1,0 +1,20 @@
+{%extends "client/base.html"%}
+
+
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li>{%endblock%}
+{%block message_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+{%block content%}
+
+
+{%endblock%}

@@ -1,0 +1,40 @@
+{%extends "client/base.html"%}
+
+{%block intro%}{%endblock%}
+
+{%block home_state%}<li>{%endblock%}
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li>{%endblock%}
+{%block message_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+
+{%block content%}
+
+
+
+
+<center><h2>Edit Profile</h2></center>
+
+<form method="post" class="alt">
+	{% csrf_token %}
+	<div class="row uniform">
+
+		<div class="table-wrapper">
+				<table>
+					{{form.as_table}}
+				</table>
+			</div>
+		
+		<div class="12u$">
+			<ul class="actions">
+				<li><input type="submit" value="Submit" class="special" /></li>
+				<li><input type="reset" value="Reset" /></li>
+			</ul>
+		</div>
+	</div>
+</form>
+
+{%endblock%}

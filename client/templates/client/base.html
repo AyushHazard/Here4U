@@ -43,7 +43,7 @@
 				<ul class="links">
 					{%block home_state%}{%endblock%}<a href="{%url 'client-home'%}">Home</a></li>
 
-					{%if not client %}
+					{%if not client and user.is_authenticated%}
 
 					
 

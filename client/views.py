@@ -286,6 +286,7 @@ def viewSessNotes(request,pk):
     else:
         return redirect(home)       
 
+@login_required
 def delSessNotes(request,pk):
 
     note = sessionNotes.objects.get(pk=pk)
@@ -500,6 +501,96 @@ def updateProfile(request):
             
     return render(request,'client/update-profile.html',context)
 
+@login_required
+def editProfileClient(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+            return redirect(home)
+
+    obj = Clientdata.objects.get(User = request.user)
+
+    form = UpdateProfileForm({'Name':obj.Name,'Gender':obj.Gender,'Age':obj.Age,'Email':obj.Email,'State':obj.State,'City':obj.City,'Marital_Status':obj.Marital_Status,'Educational_Status':obj.Educational_Status}) 
+
+    context = {"form":form,"client":user_check}
+
+    if request.method=='POST':
+        obj.Name = request.POST['Name']
+        obj.Gender = request.POST['Gender']
+        obj.Age = request.POST['Age']
+        obj.Email = request.POST['Email']
+        obj.State = request.POST['State']
+        obj.City = request.POST['City']
+        obj.Marital_Status = request.POST['Marital_Status']
+        obj.Educational_Status = request.POST['Educational_Status']
+
+        obj.save()
+
+        return redirect(myProfile)
+
+
+    return render(request,'client/edit-profile-client.html',context)
+
+    
+@login_required
+def editProfileCounsellor(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+            
+
+    if user_check:
+        return redirect(home)
+
+    obj = Counsellordata.objects.get(User = request.user)
+
+    form = UpdateProfileFormCounsellor({'Name':obj.Name,'Gender':obj.Gender,'Age':obj.Age,'Email':obj.Email,'State':obj.State,'City':obj.City,'Education':obj.Education,'Expertise':obj.Expertise,'Summary':obj.Summary,'Consultation_start':obj.Consultation_start,'Consultation_end':obj.Consultation_end}) 
+
+    context = {"form":form,"client":user_check}
+
+    if request.method=='POST':
+        obj.Name = request.POST['Name']
+        obj.Gender = request.POST['Gender']
+        obj.Age = request.POST['Age']
+        obj.Email = request.POST['Email']
+        obj.State = request.POST['State']
+        obj.City = request.POST['City']
+        obj.Education = request.POST['Education']
+        obj.Expertise = request.POST['Expertise']
+        obj.Summary = request.POST['Summary']
+        obj.Consultation_start = request.POST['Consultation_start']
+        obj.Consultation_end = request.POST['Consultation_end']
+
+        obj.save()
+
+        return redirect(myProfile)
+
+
+    return render(request,'client/edit-profile-counsellor.html',context)    
+
+@login_required
+def deleteDescription(request,pk):
+
+    obj = Description.objects.get(pk=pk)
+
+    if(obj.User==request.user):
+        obj.delete()
+
+    return redirect(myProfile) 
+@login_required
+def deleteBooking(request,pk):
+
+    obj = ActiveBookings.objects.get(client=request.user,counsellor_id=pk)
+
+    if(obj.client==request.user):
+        obj.delete()
+
+    return redirect(sessions)        
+
 # Talk to a counsellor View
 
 def talk(request):
@@ -520,7 +611,10 @@ def talk(request):
     summaries = []
 
     for i in Counsellordata.objects.all():
-        summaries.append(i.Summary[:200] + "...")
+        if i.Summary:
+            summaries.append(i.Summary[:200] + "...")
+        else:
+            summaries.append("")    
 
     all_counsellors = Counsellordata.objects.all()    
 

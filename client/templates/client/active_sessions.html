@@ -33,7 +33,7 @@
 				</header>
 				<p><b>Booking Time: {{time}}</b></p>
 				<ul class="actions">
-					<li><a href="#" class="button small">Cancel</a></li>
+					<li><a href="{%url 'delete-booking' counsellor.User.id%}" class="button small">Delete</a></li>
 					<li><a href="{%url 'message-detail' pk=counsellor.User.id %}" class="button special">Message</a></li>
 					<li><a href="{%url 'connect-counsellor' pk=counsellor.User.id %}" class="button special">Video Call</a></li>
 

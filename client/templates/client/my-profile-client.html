@@ -17,7 +17,17 @@
 {%block content%}
 <br>
 	<div>	  	   	  					 	
-								
+				
+	<header class="major">
+        <ul class="actions">
+                
+            <li><a href="{% url 'edit-profile' %}" class="button big">Edit Profile</a></li>
+            {%if description%}
+            <li><a href="{% url 'delete-description' description.pk%}" class="button big">Delete Problem Description</a></li>
+            {%endif%}  
+        </ul>
+	</header>
+
 		
 	<h2>{{profData.Name}}</h2>
 	<br>
@@ -40,7 +50,7 @@
 	<br><br><br>
 
 		{%if description%}
-		<b>Problem : </b>{{description.Message}}
+		<b>Problem Description : </b>{{description.Message}}
 		<br>
 		{%if description.extra_data%}
 		<object data = {{description.extra_data}} >HEy</object>
