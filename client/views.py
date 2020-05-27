@@ -24,33 +24,117 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 #def blog(request):
 #    return render(request,'client/blog.html',{'posts': Post.objects.all()})
-class BlogView(ListView):
-    model = Post
-    template_name = 'client/blog.html'
-    ordering = ['-id']
 
-class BlogDetailView(DetailView):
-    model = Post
-    template_name='client/blog_detail.html'
 
-class AddArticleView(LoginRequiredMixin,CreateView):
-    model = Post
-    template_name='client/blog_post.html'
-    fields = ['title','body']
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        naam = ""
-        val = Counsellordata.objects.filter(User=self.request.user)
-        if val:
-            naam = val[0].Name
-        val = Clientdata.objects.filter(User=self.request.user)
-        if val:
-            naam = val[0].Name    
-        form.instance.Name = naam
-        form.instance.brief = form.instance.body[:200] + "..."
-        return super().form_valid(form)
+
+
+@login_required
+def createPostView(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+    if request.method=='POST':
+        brief = request.POST['body'][:200]+"..."
+
+        if request.POST['body']!='':
+            new_post = Post.objects.create(title = request.POST['title'],author=request.user,body=request.POST['body'],brief=brief)        
+
+        return redirect(blogListView)
+        
+    return render(request,'client/blog_post.html',{"client":user_check})        
+
+
+
+def blogListView(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+    posts = Post.objects.all()
+
+    all_posts = []
+
+    for i in posts:
+        all_posts.append(i)
+
+    all_posts.sort(key = lambda x: x.time, reverse = True) 
+
+    # print(all_posts)
+
+    # We'll sort by date-time
+
+    return render(request,'client/blog.html',{"all_posts":all_posts,"client":user_check})   
+
+@login_required
+def personalBlogListView(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+
+    all_posts = Post.objects.filter(author=request.user)
+
+    # We'll sort by date-time
+
+    return render(request,'client/blogs-personal.html',{"all_posts":all_posts,"client":user_check}) 
+
+@login_required
+def deleteBlog(request,pk):
     
+
+
+    post = Post.objects.get(pk=pk)
+
+    if request.user==post.author:
+        post.delete()
+
+    return redirect(personalBlogListView) 
+
+@login_required
+def updateBlogView(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+
+    post = Post.objects.get(pk=pk)
+
+    if request.user!=post.author:
+        
+        return redirect(blogListView) 
+
+    if request.method=='POST':
+        post.title = request.POST['title']
+        post.body = request.POST['body']
+        post.brief = request.POST['body'][:200] + '...'
+        post.save()
+        return redirect(personalBlogListView)
+
+
+    return render(request,'client/blog-update.html',{"post":post})    
+               
+
+def blogDetailView(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
+    blog = Post.objects.get(pk=pk)        
+
+
+    return render(request,'client/blog_detail.html',{"client":user_check,"post":blog})     
 
 def about(request):
     user_check = True
@@ -84,6 +168,48 @@ def home(request):
     return render(request,'client/home.html',{"client":user_check})
 
 @login_required
+def myProfile(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False 
+
+    
+    userDescription = Description.objects.filter(User=request.user)
+    profData = None
+
+    if user_check:
+        profData = Clientdata.objects.get(User=request.user)  
+    else:
+        profData = Counsellordata.objects.get(User=request.user)    
+
+    if userDescription:
+        userDescription = userDescription[0]   
+
+
+    if user_check:
+        return render(request,'client/my-profile-client.html',{"client":user_check,"description":userDescription,"profData":profData})   
+    else:
+        return render(request,'client/my-profile-counsellor.html',{"client":user_check,"profData":profData}) 
+
+def counsellorProfile(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False 
+
+    
+    # userDescription = Description.objects.filter(User=request.user)
+    profData = Counsellordata.objects.get(pk=pk) 
+
+      
+    return render(request,'client/counsellor-profile.html',{"client":user_check,"profData":profData})
+                    
+
+
+@login_required
 def clientDescription(request,pk):
     user_check = True
     if request.user.is_authenticated:
@@ -94,7 +220,7 @@ def clientDescription(request,pk):
     Client = User.objects.get(id=pk) 
     ClientObj = None      
     userDescription = None    
-    findBooking = ActiveCounsellor.objects.filter(user=Client,Counsellor=request.user)
+    findBooking = ActiveBookings.objects.filter(client=Client,counsellor=request.user)
 
     # We need to ensure that only the counsellor that the user has booked can view the description and not one else even by
     # Editing the urls
@@ -117,16 +243,63 @@ def clientDescription(request,pk):
     
     return render(request,'client/view-description.html',{"client":user_check,"description":userDescription,"profData":ClientObj})    
 
+@login_required
 def sessNotes(request,pk):
 
     Client = User.objects.get(id=pk)
 
+
     if request.method=='POST':
         sess_notes = sessionNotes(client=Client,counsellor=request.user,title=request.POST["title"],about=request.POST["about"])
-        if request.POST.find('notesFile'):
-            sess_notes.file = request.POST['notesFile']
+        # if request.POST.find('notesFile'):
+        #     sess_notes.file = request.POST['notesFile']
         sess_notes.save()
-    return render(request,'client/session-notes.html')    
+
+    
+    old_notes_query = sessionNotes.objects.filter(client = Client, counsellor = request.user)
+
+    old_notes = []
+
+    ###   Might be inefficient   CONSIDER CHANGING IF WEBSITE IS SLOW
+
+    for i in old_notes_query:
+        old_notes.append(i)
+
+    
+    old_notes.sort(key = lambda x: x.time, reverse = True) 
+
+
+    return render(request,'client/session-notes.html',{"old_notes":old_notes,"name":Client.first_name}) 
+
+@login_required
+def viewSessNotes(request,pk):
+
+    note = sessionNotes.objects.get(pk=pk)
+
+    actualCoun = note.counsellor
+
+    if not actualCoun==request.user:
+        note = None
+
+    if note:    
+        return render(request,'client/session-notes-view.html',{"note":note}) 
+    else:
+        return redirect(home)       
+
+def delSessNotes(request,pk):
+
+    note = sessionNotes.objects.get(pk=pk)
+
+    actualCoun = note.counsellor
+
+    if actualCoun==request.user:
+        cl = note.client
+        note.delete()
+        return redirect(sessNotes,pk=cl.id)
+    else:
+        return redirect(home)
+        
+
 
 @login_required
 def videoCall(request):
@@ -205,6 +378,8 @@ def messages(request):
         if coun:
             user_check = False
 
+    ###   Might be inefficient   CONSIDER CHANGING IF WEBSITE IS SLOW        
+
     all_messages = []
     for i in ActiveMessages.objects.filter(sender = request.user):
         all_messages.append(i)
@@ -246,21 +421,26 @@ def messageDetail(request,pk):
         conversation.append(i)
 
     conversation.sort(key = lambda x: x.time, reverse = False)    
+
+    # for i in conversation:
+    #     print(i.time)
     
 
-    print(Sender)
-    print(Reciever)
+    # print(Sender)
+    # print(Reciever)
 
     if request.method=='POST':
-        print(request.POST["message-body"])
+        # print(request.POST["message-body"])
         found = ActiveMessages.objects.filter(sender = Sender, reciever = Reciever)
         dus = ActiveMessages.objects.filter(reciever = Sender, sender = Reciever)
         if not found and not dus:
-            print("NOT FOUND")
-            ActiveMessages.objects.create(sender = Sender, reciever = Reciever)
+            # print("NOT FOUND")
+            if request.POST["message-body"]!='':
+                ActiveMessages.objects.create(sender = Sender, reciever = Reciever)
 
-        new_message = Message.objects.create(sender = Sender,reciever = Reciever, body = request.POST["message-body"])
-        print(new_message.time)
+        if request.POST["message-body"]!='':
+            new_message = Message.objects.create(sender = Sender,reciever = Reciever, body = request.POST["message-body"])
+        # print(new_message.time)
         return redirect(messageDetail,pk=pk)
 
 
@@ -337,6 +517,12 @@ def talk(request):
         if des:
             show = False
     
+    summaries = []
+
+    for i in Counsellordata.objects.all():
+        summaries.append(i.Summary[:200] + "...")
+
+    all_counsellors = Counsellordata.objects.all()    
 
     if request.method=='POST':
         # @login_required
@@ -346,15 +532,15 @@ def talk(request):
             instance.User = request.user
             instance.save()
             form = DescriptionForm()
-            context = {"form":form,"client":True,'all_counsellors': Counsellordata.objects.all(),"show":False,"message":"Saved successfully, Now please select a counsellor you would like to talk to."}
+            context = {"form":form,"client":True,'all_counsellors': zip(all_counsellors,summaries),"show":False,"message":"Saved successfully, Now please select a counsellor you would like to talk to."}
             # messages.success(request,'Your description has been saved successfully')
             return render(request,'client/talk_to_counsellor.html',context)
         else:
-            context = {"form":form,"client":True,"show":show,'all_counsellors': Counsellordata.objects.all()}
+            context = {"form":form,"client":True,"show":show,'all_counsellors': zip(all_counsellors,summaries)}
             return render(request,'client/talk_to_counsellor.html',context)
                 
     else:
-        context = {"form":form,"client":True,"show":show,'all_counsellors': Counsellordata.objects.all()}
+        context = {"form":form,"client":True,"show":show,'all_counsellors': zip(all_counsellors,summaries)}
         return render(request,'client/talk_to_counsellor.html',context) 
 
 
@@ -362,25 +548,31 @@ def talk(request):
 
 @login_required
 def book(request,pk):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+
     counsellor = Counsellordata.objects.get(pk=pk)
-    if not counsellor:
+    if not counsellor or not user_check:
         return redirect(talk)
 
     form = BookingForm()
-    check = ActiveCounsellor.objects.filter(user = request.user, Counsellor=counsellor.User)
+    check = ActiveBookings.objects.filter(client = request.user, counsellor=counsellor.User)
 
     if not check:
-        context={"form":form,"client":True,"counsellor":counsellor}
+        context={"form":form,"client":user_check,"counsellor":counsellor}
         if request.method=='POST':
             form = BookingForm(request.POST)
             instance = form.save(commit=False)
             if form.is_valid() and instance.Booking_time>=counsellor.Consultation_start and instance.Booking_time<= counsellor.Consultation_end:
                 
-                instance.user = request.user
-                instance.Counsellor = counsellor.User
-                active_client = ActiveClient(user=counsellor.User,Client=request.user,Booking_time=instance.Booking_time)
+                instance.client = request.user
+                instance.counsellor = counsellor.User
+                # active_client = ActiveClient(user=counsellor.User,Client=request.user,Booking_time=instance.Booking_time)
                 instance.save()
-                active_client.save()
+                # active_client.save()
                 return redirect(sessions)
             else:
                 form = BookingForm()
@@ -405,8 +597,8 @@ def sessions(request):
             return render(request,'client/home.html',{"client":user_check})
     all_counsellors = []
     time = []
-    for obj in ActiveCounsellor.objects.all().filter(user=request.user):
-        counsellor = obj.Counsellor
+    for obj in ActiveBookings.objects.filter(client=request.user):
+        counsellor = obj.counsellor
         time.append(obj.Booking_time)
         # print(counsellor)
         all_counsellors.append(Counsellordata.objects.get(User=counsellor))
@@ -439,8 +631,8 @@ def active(request):
 
     all_clients = []
     time = []
-    for obj in ActiveClient.objects.all().filter(user=request.user):
-        client = obj.Client
+    for obj in ActiveBookings.objects.filter(counsellor=request.user):
+        client = obj.client
         time.append(obj.Booking_time)
         # print(counsellor)
         all_clients.append(Clientdata.objects.get(User=client))        

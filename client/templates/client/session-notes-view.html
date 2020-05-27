@@ -1,5 +1,6 @@
 {%extends "client/base.html"%}
 
+
 {%block home_state%}<li >{%endblock%}
 {%if client%}}  
 {%block talk_state%}<li>{%endblock%}
@@ -8,35 +9,29 @@
 {%block client_state%}<li>{%endblock%}
 {%block active_state%}<li>{%endblock%}  
 {%endif%}   
+{%block faqs_state%}<li>{%endblock%}
 {%block blog_state%}<li>{%endblock%}
-{%block message_state%}<li class = "active">{%endblock%}
+{%block message_state%}<li>{%endblock%}
 {%block about_state%}<li>{%endblock%}
 
 {%block content%}
 
 
-{%for Users in messages%}
+<header class="major"><h2>{{note.title}}</h2></header>
+
+<div id = "main">
+
+	<p>
+		{{note.about}}
+
+	</p>
 
 
-
-<ul class="actions fit">
-	<li><a href="{% url 'message-detail' pk=Users.id %}" class = "button fit">{{Users.first_name}}</a></li>
-	
-	<li><a href="{% url 'message-detail' pk=Users.id %}" class = "button special big">Message</a></li>
-</ul>
-
-
-
-{%endfor%}
-
-
-
-	
-
-
-
-
+	</div>
 
 
 
 {%endblock%}
+
+
+

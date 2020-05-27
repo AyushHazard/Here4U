@@ -66,6 +66,14 @@
 		
 	</section>
 
+	{%else%}
+
+	<header class="major">
+			<!-- <span class="date">April 25, 2017</span> -->
+			<h1>Talk to a counsellor</h1>
+			
+		</header>
+
 	
 
  {%endif%}
@@ -80,14 +88,14 @@
 
 	<section class="posts">
 
-		{%for counsellor in all_counsellors%}
+		{%for counsellor,summary in all_counsellors%}
 			<article>
 				<header>
 					<!-- <span class="date">April 24, 2017</span> -->
-					<h2><a href="#">{{counsellor.Name}}</a></h2>
+					<h2><a href="{%url 'counsellor-profile' counsellor.pk%}">{{counsellor.Name}}</a></h2>
 				</header>
-				<a href="#" class="image fit"><img src="../../static/images/pic02.jpg" alt="" /></a>
-				<p>{{counsellor.Summary}}<br>
+				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
+				<p>{{summary}}<br>
 					<a href="#" class="button small icon fa-tag">Anger</a> <a href="#" class="button small icon fa-tag">Stress</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
 				<ul class="actions">
 					<li><a href="{%url 'message-detail' pk=counsellor.User.id %}" class="button">Message</a></li>

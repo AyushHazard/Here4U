@@ -16,22 +16,28 @@
 
 {%block content%}
 <br>
-	<div>
-	
-	{%if profData%}
+	<div>	  	   	  					 	
+								
+		
 	<h2>{{profData.Name}}</h2>
 	<br>
 	<b>Age : {{profData.Age}}
 	&ensp;&ensp;&ensp;
-	Gender : {{profData.Gender}}</b>
+	Gender : {{profData.Gender}}
+	&ensp;&ensp;&ensp;
+	E-mail : {{profData.Email}}</b>
 	<br><br><br>
 	<b>Marital Status : {{profData.Marital_Status}}
 	&ensp;&ensp;&ensp;
 	Educational Status : {{profData.Educational_Status}}</b>
-	<ul class = "actions">
-	<li><a href = "{%url 'session-notes' pk=profData.User.id%}"class= "button special">Session Notes</a></li>
-	</ul>
-	<br>
+	
+	<br><br><br>
+
+	<b>
+	State : {{profData.State}}
+	&ensp;&ensp;&ensp;
+	City : {{profData.City}}</b>
+	<br><br><br>
 
 		{%if description%}
 		<b>Problem : </b>{{description.Message}}
@@ -43,9 +49,7 @@
 		<b>No Problem Description availaible !</b>
 
 		{%endif%}
-	{%else%}
-	<b>You're not authorized to view this !</b>
-	{%endif%}	
+	
 
 	
 	</div>

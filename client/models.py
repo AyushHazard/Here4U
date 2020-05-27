@@ -34,7 +34,7 @@ class sessionNotes(models.Model):
     client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sess_cl')
     counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sess_coun')
     title = models.CharField(max_length = 200,blank = True,null = True)
-    time = models.TimeField(null = True,auto_now = True,auto_now_add = False)
+    time = models.DateTimeField(null = True,auto_now = True)
     file = models.FileField(upload_to='client/uploads',null=True,blank=True)
     about = models.TextField(null = True,blank = True)
 
@@ -47,10 +47,12 @@ class VideoCallLink(models.Model):
     def __str__(self):
         return self.link
 
-class ActiveCounsellor(models.Model):
-    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_clside')
-    Counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_clside')
-    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
+
+
+class ActiveBookings(models.Model):
+    client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id')
+    counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id') 
+    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)       
 
 
 class Bookings(models.Model):
@@ -65,7 +67,7 @@ class Counsellordata(models.Model):
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
     # user_id = models.IntegerField(null = True,blank = True)
     Name = models.CharField(max_length=100)
-    Gender=models.IntegerField(choices=[(0,'Male'),(1,'Female'),(2,'Other')])
+    Gender=models.CharField(max_length=32,choices=[('Male','Male'),('Female','Female'),('Others','Others')])
     Age=models.IntegerField(blank = True,null=True)
     Profile_pic = models.FileField(blank=True,null=True)
     Email=models.EmailField()
@@ -80,16 +82,13 @@ class Counsellordata(models.Model):
     def __str__(self):
         return self.Name
 
-class ActiveClient(models.Model):
-    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='counsellor_id_coun')
-    Client = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='client_id_coun')
-    Booking_time = models.TimeField(null=True,auto_now=False, auto_now_add=False)
+
 
 class Message(models.Model):
     sender = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sender')   
     reciever = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='reciever')
     body = models.TextField()
-    time = models.TimeField(null = True,auto_now = True,auto_now_add = False)
+    time = models.DateTimeField(null = True,auto_now = True)
 
     def __str__(self):
         return self.body
@@ -101,16 +100,12 @@ class ActiveMessages(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
-    Name = models.CharField(max_length=100,null = True)
+    time = models.DateTimeField(null = True,auto_now = True)
     body = models.TextField()
     brief = models.TextField(null = True)
 
     def __str__(self):
         return self.title + '|' + str(self.author)
-
-    def get_absolute_url(self):
-        print(self.id)
-        return reverse('blog')
 
 
 

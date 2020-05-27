@@ -17,19 +17,19 @@
 
 {% block content %}
 
-<header class ="major"><h2>Write a New Blog.</h2></header>
+<header class ="major"><h2>Update Blog.</h2></header>
 
 <div id = "main">
 
 <form method="POST">
     {% csrf_token %}
     
-    <input type="text" name="title" placeholder="Enter the title of the Blog" />
+    <input type="text" name="title" placeholder="Enter the title of the Blog" value="{{post.title}}" />
     <br><br>
-	<textarea type="text" name="body" placeholder="Write your Blog here." rows="6" ></textarea>
+	<textarea type="text" name="body" placeholder="Write your Blog here." rows="6" >{{post.body}}</textarea>
 	
 	<ul class = "actions">
-	<li><input type="submit" class = "button special" value = "+ Post Blog"/></li>
+	<li><input type="submit" class = "button special" value = "+ Update Blog"/></li>
 	<li><input type="reset" class = "button" value = "Reset"/></li>
 	</ul>
 

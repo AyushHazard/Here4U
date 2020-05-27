@@ -118,13 +118,5 @@ class BookingSerializer(serializers.ModelSerializer):
         fields =['client_key','counsellor_key','Booking_time']
 
 
-class ActiveCounsellorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ActiveCounsellor
-        fields = ['user','Counsellor','Booking_time']       
-
-class ActiveClientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ActiveClient
-        fields = '__all__'      
+  
 

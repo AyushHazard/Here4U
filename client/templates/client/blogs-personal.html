@@ -27,12 +27,7 @@
 -->
     <header class="major">
 		<span class="date">{% now "jS F Y H:i" %}</span>
-        <ul class="actions">
-                <li><a href="{% url 'add_post' %}" class="button big">Write a Blog</a></li>
-                {%if user.is_authenticated%}
-                <li><a href="{% url 'personal-blogs' %}" class="button big">My Blogs</a></li>
-                {%endif%}
-        </ul>
+        <h2>Your Blogs</h2>
 	</header>
 
 
@@ -45,7 +40,8 @@
 				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
 				<p>{{post.brief}}</p>
 				<ul class="actions">
-					<li><a href="{% url 'blog_detail' post.pk %}" class="button">Full Blog</a></li>
+					<li><a href="{% url 'update-blog' post.pk %}" class="button">Update Blog</a></li>
+                    <li><a href="{% url 'delete-blog' post.pk %}" class="button">Delete Blog</a></li>
 				</ul>
 			</article>
         {%endfor%}

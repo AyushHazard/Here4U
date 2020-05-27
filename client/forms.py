@@ -34,7 +34,7 @@ class UpdateProfileFormCounsellor(ModelForm):
 
 class BookingForm(ModelForm):
 	class Meta:
-		model = ActiveCounsellor
+		model = ActiveBookings
 		fields = ['Booking_time']
 
 

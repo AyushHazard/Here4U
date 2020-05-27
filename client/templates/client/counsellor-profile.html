@@ -1,0 +1,62 @@
+{%extends "client/base.html"%}
+
+
+{%block home_state%}<li >{%endblock%}
+{%if client%}}  
+{%block talk_state%}<li>{%endblock%}
+{%block session_state%}<li>{%endblock%}
+{%else%}
+{%block client_state%}<li>{%endblock%}
+{%block active_state%}<li>{%endblock%}  
+{%endif%}   
+{%block faqs_state%}<li>{%endblock%}
+{%block blog_state%}<li>{%endblock%}
+{%block message_state%}<li>{%endblock%}
+{%block about_state%}<li>{%endblock%}
+
+{%block content%}
+<br>
+	<div >
+	
+	
+	<h2>{{profData.Name}}</h2>
+	<br>
+	<b>Age : {{profData.Age}}
+	&ensp;&ensp;&ensp;
+	Gender : {{profData.Gender}}
+	&ensp;&ensp;&ensp;
+	E-mail : {{profData.Email}}</b>
+	<br><br><br>
+	<b>
+	Educational Status : {{profData.Education}}
+	&ensp;&ensp;&ensp;
+	Expertise : {{profData.Expertise}}</b>
+	
+	<br><br><br>
+
+	<b>
+	Consultation Start : {{profData.Consultation_start}}
+	&ensp;&ensp;&ensp;
+	Consultation End : {{profData.Consultation_end}}</b>
+
+
+	<br><br><br>
+
+	<b>
+	Summary :</b> <p>{{profData.Summary}}</p>
+
+	<br>
+
+	<b>
+	State : {{profData.State}}
+	&ensp;&ensp;&ensp;
+	City : {{profData.City}}</b>
+		
+	
+
+	
+	</div>
+
+
+
+{%endblock%}

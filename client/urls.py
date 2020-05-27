@@ -3,7 +3,7 @@ from . import views
 from django.shortcuts import render, redirect
 
 from rest_framework import routers
-from .views import BlogView,BlogDetailView,AddArticleView
+
 from rest_framework_jwt.views import obtain_jwt_token
 
 # from counsellor.urls import
@@ -18,6 +18,9 @@ urlpatterns = [
     path('talk/',views.talk,name = "talk-to-counsellor"),
     path('signup/',views.signup,name="sign-up"),
     path('update-profile/',views.updateProfile,name="update-profile"),
+
+    path('my-profile/',views.myProfile,name="my-profile"),
+    path('counsellor-profile/<int:pk>/',views.counsellorProfile,name="counsellor-profile"),
     # path('accounts/login/',views.login,name='login'),
     # path('accounts/logout/',views.logout,name='log-out'),
     path('profile/<int:pk>/',views.profile,name='profile'),
@@ -28,17 +31,24 @@ urlpatterns = [
     path('book/<int:pk>/',views.book,name="book-appointment"),
     path('FAQs/',views.faqs,name="faqs"),
     #path('blog/',views.blog,name="blog"),
-    path('blog/', BlogView.as_view(), name="blog"),
-    path('blog/blog_detail/<int:pk>/',BlogDetailView.as_view(),name="blog_detail"),
-    path('blog/add_post/',AddArticleView.as_view(),name="add_post"),
+    path('blog/', views.blogListView, name="blog"),
+    path('blog/blog_detail/<int:pk>/',views.blogDetailView,name="blog_detail"),
+    path('blog/add_post/',views.createPostView,name="add_post"),
+    path('blog/personal-blogs/',views.personalBlogListView,name="personal-blogs"),
+    path('blog/delete-blog/<int:pk>/',views.deleteBlog,name="delete-blog"),
+    path('blog/update-blog/<int:pk>/',views.updateBlogView,name="update-blog"),
+
     path('messages/',views.messages,name = "messages"),
     path('messages-detail/<int:pk>/',views.messageDetail,name = "message-detail"),
     path('videocall/',views.videoCall,name = "video-call"),
     path('connect-client/<int:pk>/',views.interfaceClient,name="connect-client"),
     path('connect-counsellor/<int:pk>/',views.interfaceCounsellor,name="connect-counsellor"),
     path('delete-link/<int:pk>/',views.deleteLink,name="delete-link"),
+
     path('view-description/<int:pk>',views.clientDescription,name='view-description'),
     path('session-notes/<int:pk>',views.sessNotes,name='session-notes'),
+    path('view-notes/<int:pk>',views.viewSessNotes,name='view-notes'),
+    path('delete-notes/<int:pk>',views.delSessNotes,name='delete-notes'),
 
     
     # API URLS

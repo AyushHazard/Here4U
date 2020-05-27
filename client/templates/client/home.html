@@ -30,6 +30,18 @@
 {% block content %}
 
 	<!-- Featured Post -->
+		{%if user.is_authenticated%}
+		<header class="major">
+		
+        <ul class="actions">
+                
+                <li><a href="{% url 'my-profile' %}" class="button big">My Profile</a></li>
+                
+        </ul>
+	</header>
+	{%endif%}
+
+
 		<article class="post featured">
 			<header class="major">
 				<span class="date">{% now "jS F Y H:i" %}</span>
