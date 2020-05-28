@@ -3,66 +3,72 @@
 {%block intro%}{%endblock%}
 
 {%block home_state%}<li>{%endblock%}
-{%block client_state%}<li>{%endblock%}
-{%block active_state%}<li>{%endblock%}
-{%block faqs_state%}<li>{%endblock%}
-{%block blog_state%}<li>{%endblock%}
-	{%block message_state%}<li>{%endblock%}
-{%block about_state%}<li>{%endblock%}
+	{%block client_state%}
+<li>{%endblock%}
+	{%block active_state%}
+<li>{%endblock%}
+	{%block faqs_state%}
+<li>{%endblock%}
+	{%block blog_state%}
+<li>{%endblock%}
+	{%block message_state%}
+<li>{%endblock%}
+	{%block about_state%}
+<li>{%endblock%}
 
 
-{%block content%}
+	{%block content%}
 
 
-<h2>A Video call to {{name}}</h2>
+	<h2>A Video call to {{name}}</h2>
 
-<h3>Please begin the video-call and paste the url in the box below.</h3>
-
-
-
-<div id = "main">
-	<b>
-	<ul class = "actions">
-				<li><a class = "button big" href="{%url 'video-call'%}" target = "_blank">Begin Video call !</a></li>
-
-	</ul>
-
-Your client will follow this link to join you in the call.
-
-<br>
-<br>
-
-	{%if links%}
-Active Call Link : <a href={{links}} target="_blank">{{links}}</a></b>
-	{%else%}
-	No Active Links: </b>
-	{%endif%}
-	
-	<form method="POST">
-	{%csrf_token%}
-	<input type="text" name="videocall-link" placeholder="Paste the URL here."/>
-	<p><br></p>
-	
-	<input type="submit" class="special button big" value="Send URL"/>
-	<p>&ensp;&ensp;&ensp;</p>
-	{%if links%}
-	<a class = "button big" href="{%url 'delete-link' pk=links.pk%}">Delete Link !</a>
-	{%endif%}
-	
-</form>
-
-	
-
-</div>
+	<h3>Please begin the video-call and paste the url in the box below.</h3>
 
 
+	<div id="main">
+		<b>
+			<ul class="actions">
+				<li><a class="button big" href="{%url 'video-call'%}" target="_blank">Begin Video call !</a></li>
 
+			</ul>
 
+			Your client will follow this link to join you in the call.
 
+			<br>
+			<br>
 
-	
+			{%if links%}
+			Active Call Link : <a href={{links}} target="_blank">{{links}}</a>
+		</b>
+		{%else%}
+		No Active Links: </b>
+		{%endif%}
+
+		<form method="POST">
+			{%csrf_token%}
+			<input type="text" name="videocall-link" placeholder="Paste the URL here." />
+			<p><br></p>
+
+			<input type="submit" class="special button big" value="Send URL" />
+			<p>&ensp;&ensp;&ensp;</p>
+			{%if links%}
+			<a class="button big" href="{%url 'delete-link' pk=links.pk%}">Delete Link !</a>
+			{%endif%}
+
+		</form>
 
 
 
+	</div>
 
-{%endblock%}
+
+
+
+
+
+
+
+
+
+
+	{%endblock%}
