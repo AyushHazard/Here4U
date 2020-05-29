@@ -916,15 +916,15 @@ class CreateBookingView(CreateAPIView):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetActiveClientsView(request):
-    obj = BookingSerializer(Bookings.objects.filter(counsellor_id=request.user.id),many=True)
-
+    obj = BookingSerializer(ActiveBookings.objects.filter(counsellor_id=request.user.id),many=True)
+    print(obj)
     return Response(obj.data)
 
 @permission_classes([permissions.IsAuthenticated])
 @api_view(('GET',))
 def GetActiveCounsellorsView(request):
-    obj = BookingSerializer(Bookings.objects.filter(client_id=request.user.id),many=True)
-
+    obj = BookingSerializer(ActiveBookings.objects.filter(client_id=request.user.id),many=True)
+    print(obj)
     return Response(obj.data)    
 
 

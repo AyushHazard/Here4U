@@ -109,13 +109,13 @@ class DescriptionSerializer(serializers.ModelSerializer):
 
 class BookingSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
-        validated_data.update({'client_id':validated_data['client_key'],'counsellor_id':validated_data['counsellor_key']})
-        obj = Bookings.objects.create(**validated_data)
+        validated_data.update({'client_id':validated_data['client_id'],'counsellor_id':validated_data['counsellor_id']})
+        obj = ActiveBookings.objects.create(**validated_data)
         obj.save()
         return obj
     class Meta:
-        model = Bookings
-        fields =['client_key','counsellor_key','Booking_time']
+        model = ActiveBookings
+        fields =['client_id','counsellor_id','Booking_time']
 
 
   
