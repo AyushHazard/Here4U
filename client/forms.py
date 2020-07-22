@@ -19,7 +19,7 @@ from .models import *
 class DescriptionForm(ModelForm):
     class Meta:
         model = Description
-        fields = ['Message','extra_data']
+        fields = ['Message']
 
 class UpdateProfileForm(ModelForm):
     class Meta:

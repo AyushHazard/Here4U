@@ -263,11 +263,23 @@ def sessNotes(request,pk):
 
     Client = User.objects.get(id=pk)
 
+    f = FileSystemStorage()
+    # print(request.FILES)
+
 
     if request.method=='POST':
         sess_notes = sessionNotes(client=Client,counsellor=request.user,title=request.POST["title"],about=request.POST["about"])
-        # if request.POST.find('notesFile'):
-        #     sess_notes.file = request.POST['notesFile']
+        try:
+            SessNotes = request.FILES.get('sessNotes')
+            print(SessNotes)
+            filename = f.save(SessNotes.name,SessNotes)
+            fileurl = f.url(filename)
+        except:
+            filename = '-'
+            fileurl = '-'
+
+        sess_notes.fileurl = fileurl
+        sess_notes.filename = filename        
         sess_notes.save()
 
     

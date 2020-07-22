@@ -25,7 +25,8 @@ class Description(models.Model):
     # Email=models.ForeignKey(Clientdata,on_delete=models.CASCADE)
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
     Message=models.CharField(max_length=1000) 
-    extra_data=models.FileField(upload_to='client/uploads',null=True,blank=True)
+    fileurl = models.TextField(default='-')
+    filename = models.TextField(default='-')
 
     def __str__(self):
         return self.Message
@@ -35,7 +36,8 @@ class sessionNotes(models.Model):
     counsellor = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,related_name='sess_coun')
     title = models.CharField(max_length = 200,blank = True,null = True)
     time = models.DateTimeField(null = True,auto_now = True)
-    file = models.FileField(upload_to='client/uploads',null=True,blank=True)
+    fileurl = models.TextField(default='-')
+    filename = models.TextField(default='-')
     about = models.TextField(null = True,blank = True)
 
 

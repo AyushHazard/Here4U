@@ -28,7 +28,7 @@ SECRET_KEY = 'ycg7p6(=jtsd1j)s9ggbtpz(-kgc(ag@uw+bh5ng3-17!tj)ua'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['hear4u.herokuapp.com','localhost:3000', '127.0.0.1', 'testserver','here4u-iitrpr.herokuapp.com','192.168.1.8']
+ALLOWED_HOSTS = ['hear4u.herokuapp.com','localhost', '127.0.0.1', 'testserver','here4u-iitrpr.herokuapp.com','192.168.1.8']
 
 
 

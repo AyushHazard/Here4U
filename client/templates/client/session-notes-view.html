@@ -23,11 +23,24 @@
 
 	<p>
 		{{note.about}}
+		<br><br>
+
+		{%if note.fileurl != "-" %}
+		<object data="{{note.fileurl}}" type="application/pdf" width="100%" height="100%">
+		<iframe src="{{note.fileurl}}" width="100%" height="100%" style="border: none;">
+		</iframe>
+		</object>
+		<b><a target="_blank" href="{{note.fileurl}}">Here's the link to the Notes! (if you want to view it full screen)</a></b>
+		{%endif%}
 
 	</p>
 
+	
+	 
+	
 
 	</div>
+
 
 
 
