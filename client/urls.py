@@ -25,6 +25,8 @@ urlpatterns = [
     path('delete-description/<int:pk>/',views.deleteDescription,name="delete-description"),
     path('delete-booking/<int:pk>/',views.deleteBooking,name="delete-booking"),
 
+    path('report/',views.reportProblem,name='report'),
+
 
     path('my-profile/',views.myProfile,name="my-profile"),
     path('counsellor-profile/<int:pk>/',views.counsellorProfile,name="counsellor-profile"),

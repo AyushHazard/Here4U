@@ -162,4 +162,10 @@ class Team_details(models.Model):
     def __str__(self):
         return self.Name
 
+class Problem_reports(models.Model):
+    title = models.TextField(default = '-')
+    brief = models.TextField(default='-')
+
+    def __str__(self):
+        return self.title
 

@@ -49,6 +49,24 @@ def createPostView(request):
         
     return render(request,'client/blog_post.html',{"client":user_check})        
 
+def reportProblem(request):
+    user_check = True
+    if request.user.is_authenticated:
+        coun = Counsellordata.objects.all().filter(User=request.user)
+        if coun:
+            user_check = False
+    
+    message = None
+
+    
+
+    if request.method =='POST':
+        obj = Problem_reports.objects.create(title=request.POST['title'],brief=request.POST['brief'])
+        message = "Your issue has been reported successfully! Thank you for reporting the issue."
+
+    context={"client":user_check,'message':message}
+
+    return render(request,'client/report-problem.html',context)
 
 def LogOut(request):
     logout(request)
