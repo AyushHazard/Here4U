@@ -111,4 +111,55 @@ class Post(models.Model):
         return self.title + '|' + str(self.author)
 
 
+class Motivation_small(models.Model):
+    title = models.TextField(default='-')
+    brief = models.TextField(default='-')
+    picture = models.FileField(upload_to='client/uploads',null=True,blank=True)
+    article_link = models.TextField(default='-')
+
+    def __str__(self):
+        return self.title
+
+
+class Motivation_large(models.Model):
+    quote1 = models.TextField(default='-')
+    quote2 = models.TextField(default='-')
+    picture = models.FileField(upload_to='uploads',null=True,blank=True)
+    article_link = models.TextField(default='-')
+
+    def __str__(self):
+        return self.quote1  
+
+class Extra_info(models.Model):
+    title =  models.TextField(default='-')
+    content = models.TextField(default='-')  
+
+    def __str__(self):
+        return self.title   
+
+class About_us_big(models.Model):
+    title = models.TextField(default='-')
+    content = models.TextField(default='-')
+    picture = models.FileField(upload_to = 'uploads',null=True,blank=True)
+
+    def __str__(self):
+        return self.title
+
+class About_us_small(models.Model):
+    title = models.TextField(default='-')
+    content = models.TextField(default='-')
+
+    def __str__(self):
+        return self.title
+
+class Team_details(models.Model):
+    Name = models.CharField(max_length=200)
+    Position = models.CharField(max_length=200)
+    email = models.CharField(max_length=300)
+    picture = models.FileField(upload_to = 'uploads',null=True,blank=True)
+    website = models.TextField(default='-')
+
+    def __str__(self):
+        return self.Name
+
 

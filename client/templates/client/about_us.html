@@ -24,99 +24,77 @@
 <!-- Post -->
 	<section class="post">
 	<header class="major">
-		<span class="date">{% now "jS F Y H:i" %}</span>
+		<span class="date"><b>{% now "jS F Y H:i" %}</b></span>
 		<h1>About Us</h1>
-		<p>COUNSELING IS NOT TO DEGRADE DECISION MAKING SKILL OF AN INDIVIDUAL RATHER THAN TO HELP THE PERSONS RESOLVE WHAT STIFLES THEIR ABILITY TO MANAGE THEIR LIVES.</p>
+
+	{%for info in about_us_large%}	
+        <p><b><i>{{info.title}}</i></b></p>
 	</header>
-	<div class="image main"><img src="../../static/client/images/iitrpr1.jpeg" alt="" height="600" width="800" /></div>
-	<p>Institute Counseling Service is here to support you. Our mission is to promote well-being, aiding to develop better understanding of the self, to grow both intellectually and emotionally, to be more satisfied and productive and improve the depth and quality of your life. To hike sound mental health, We provide help in dealing with emotional and behavioral problems like guilt, anxiety, stress, lack of confidence, low self esteem, depression and internet addiction of any sort, dependency, personal problems in relationship like co-dependency, rejection, separation home-sickness etc. Counseling Cell does fostering and inculcating life skills to make better adjustments and enriching healthy relationships.</p>
+	<div class="image main"><img src="/client/media/{{info.picture}}" alt="" height="600" width="800" /></div>
+	<p>{{info.content}}</p>
+    {%endfor%}
 	<div class="expert_doctors_area p-0">
         <div class="container">
             <div class="row justify-content-center ">
                 <div class="col-lg-6">
                     <div class="section_title mb-55 text-center">
-                        <h2 style="text-align:center;">Our Counselors</h2>
+                        <h3 style="text-align:center;">Our Team</h3>
                     </div>
                 </div>
             </div>
+            {%for person in our_team%}
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6">
                     <div class="single_expert">
                         <div class="expert_thumb">
-                            <img src="../../static/client/images/ds.jfif" alt="" height="300" width="300">
+                            <img src="/client/media/{{person.picture}}" alt="" height="300" width="300">
                         </div>
                         <div class="experts_name text-center">
 						<center>
-                            <h3>Deepak Kr. Phogat</h3>
-                            <span>Clinical Psychologist</span>
+                            <h3>{{person.Name}}</h3>
+                            <span>{{person.Position}}</span>
 							</center>
                             <div class="social_links">
                                 <ul>
-                                    <li>Counselor,IIT Ropar
+                                    <li>{{person.email}}
                                         
                                     </li>
-                                    <li>deepak.phogat@iitrpr.ac.in
-                                        
-                                    </li>
-                                    <li>Linkedin
-                                        <a href="https://in.linkedin.com/in/deepak-phogat-587639136"> <i class="fa fa-linkedin"></i> </a>
+                                    <li><i class="fa fa-globe"></i>
+                                        <a href="{{person.website}}"> Website</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_expert">
-                        <div class="expert_thumb">
-                            <img src="../../static/client/images/pic08.jpg" alt="" height="300" width="300">
-                        </div>
-                        <div class="experts_name text-center">
-						<center>
-                            <h3>Bhawna Suri</h3>
-                            <span>Counseling Psychologist</span>
-							</center>
-                            <div class="social_links">
-                                <ul>
-                                    <li>Counselor, IIT Ropar 
-                                        
-                                    </li>
-                                    <li>bhawna@iitrpr.ac.in
-                                        
-                                    </li>
-                                    <li>Linkedin
-                                        <a href="https://in.linkedin.com/in/bhawna-suri-933262120"> <i class="fa fa-linkedin"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {%endfor%}
+                
             </div>
         </div>
     </div>
-	<div class="dsa">
-		<h3>Confidentiality</h3>
-		<p>Each client has an option to remain anonymous.Nobody is asked to reveal his identity in front of the counselors in normal case.
-        Only the counselors mentioned above have the access to information and records of each session.Each session is given full consideration and no information is revealed to anyone, whoever it may be. However, exception may be made in the case of life threatening situation(s).</p>
+	{%for info in about_us_small%}
+    <div class="dsa">
+		<h3>{{info.title}}</h3>
+		<p>{{info.content}}</p>
     </div>
-    
+    {%endfor%}
     <div class="admin">
         <h3>Administration</h3>
         <p>This site is solely governed by the Administration of IIT Ropar,Counseling Cell</p>
         <ul>
-            <li><a href="https://www.facebook.com/iitrpr/">Facebook</li>
-            <li><a href="https://twitter.com/iitrpr">Twitter</li>
-            <li><a href="https://www.instagram.com/iitropar/">Instagram</li>
-            <li><a href="https://www.linkedin.com/company/iitropar">Linkedin</li>
+            <li><a target="_blank" href="https://www.facebook.com/iitrpr/">Facebook</li>
+            <li><a target="_blank" href="https://twitter.com/iitrpr">Twitter</li>
+            <li><a target="_blank" href="https://www.instagram.com/iitropar/">Instagram</li>
+            <li><a target="_blank" href="https://www.linkedin.com/company/iitropar">Linkedin</li>
         </ul>
     </div>
     <div class="developers">
         <h3>Contributors</h3>
-        <ul>
-            <li>Ayush Agrawal</li>
-            <li>Divyanshu Mathpal</li>
-            <li>Samreet Singh Dhami</li>
+        <ul><b>
+            <li><a target="_blank" href="https://www.linkedin.com/in/ayush-agrawal-iitrpr/">Ayush Agrawal</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/in/divyanshu-mathpal-5a029b17b/">Divyanshu Mathpal</a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/in/samreet-singh-dhami-048a71195/">Samreet Singh Dhami</a></li>
+        </b>
         </ul>
     </div>
 	</section>

@@ -152,9 +152,12 @@ def about(request):
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
             user_check = False
-        
+     
+    about_us_large = About_us_big.objects.all()
+    about_us_small = About_us_small.objects.all()
+    our_team = Team_details.objects.all()   
             
-    return render(request,'client/about_us.html',{"client":user_check})
+    return render(request,'client/about_us.html',{"client":user_check,'about_us_large':about_us_large,'about_us_small':about_us_small,'our_team':our_team})
 
 def faqs(request):
     user_check = True
@@ -179,8 +182,14 @@ def home(request):
             # case of a fresh user
             return redirect(updateProfile)
 
+    motivation_small = Motivation_small.objects.all()
+    motivation_large = Motivation_large.objects.all()
+    extra_content = Extra_info.objects.all()    
+
+    # motivation_large[0].picture = "/client/media/"   
+    print(motivation_large[0].picture) 
                  
-    return render(request,'client/home.html',{"client":user_check})
+    return render(request,'client/home.html',{"client":user_check,"motivation_small":motivation_small,"motivation_large":motivation_large,"extra_content":extra_content})
 
 @login_required
 def myProfile(request):
