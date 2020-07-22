@@ -30,7 +30,7 @@ class UpdateProfileForm(ModelForm):
 class UpdateProfileFormCounsellor(ModelForm):
     class Meta:
     	model = Counsellordata
-    	fields = ['Name','Gender','Age','Profile_pic','Email','State','City','Education','Expertise','Summary','Consultation_start','Consultation_end']        
+    	fields = ['Education','Expertise','Summary','Consultation_start','Consultation_end']        
 
 class BookingForm(ModelForm):
 	class Meta:

@@ -94,7 +94,13 @@
 					<!-- <span class="date">April 24, 2017</span> -->
 					<h2><a href="{%url 'counsellor-profile' counsellor.pk%}">{{counsellor.Name}}</a></h2>
 				</header>
-				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
+				<a href="{%url 'counsellor-profile' counsellor.pk%}" class="image fit">
+					 {% if counsellor.profilepicurl != "-" %}
+					<img src="{{counsellor.profilepicurl}}" alt="" />
+					{%else%}
+					<img src="../../static/client/images/pic1.jpeg" alt="" />
+					{%endif%}
+				</a>
 				<p>{{summary}}<br>
 					<a href="#" class="button small icon fa-tag">Anger</a> <a href="#" class="button small icon fa-tag">Stress</a> <a href="#" class="button small icon fa-tag">Expertise tags</a></p>
 				<ul class="actions">

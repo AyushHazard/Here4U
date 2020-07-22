@@ -29,6 +29,14 @@
 	
 	<h2>{{profData.Name}}</h2>
 	<br>
+	{% if profData.profilepicurl != "-" %}
+	<a href="#" class="image fit">
+		 
+		<img style="width: 250px;height: 250px" src="{{profData.profilepicurl}}" alt="" />
+		
+	</a>
+	<br>
+	{%endif%}
 	<b>Age : {{profData.Age}}
 	&ensp;&ensp;&ensp;
 	Gender : {{profData.Gender}}

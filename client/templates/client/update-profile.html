@@ -14,9 +14,11 @@
 {%block content%}
 
 
+{%if special%}
 <ul class="actions fit small">
 	<li><a href="{%url 'update-profile-counsellor' %}" class="button special fit small">Sign in as a Counsellor?</a></li>
 </ul>
+{%endif%}
 
 <center><h2>Update Profile</h2></center>
 

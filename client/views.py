@@ -6,6 +6,8 @@ import json
 from django.views.generic import CreateView,ListView, DetailView
 from .models import Post
 from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
+
 from django.contrib.auth.forms import UserCreationForm
 # from counsellor.models import *
 from django.contrib.auth.models import User
@@ -48,6 +50,14 @@ def createPostView(request):
     return render(request,'client/blog_post.html',{"client":user_check})        
 
 
+def LogOut(request):
+    logout(request)
+
+    return redirect(home)
+
+def LogIn(request):
+    
+    return render(request,'client/login.html')    
 
 def blogListView(request):
     user_check = True
@@ -162,9 +172,14 @@ def home(request):
     user_check = True
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
+        usr = Clientdata.objects.filter(User=request.user)
         if coun:
             user_check = False
+        elif not usr:
+            # case of a fresh user
+            return redirect(updateProfile)
 
+                 
     return render(request,'client/home.html',{"client":user_check})
 
 @login_required
@@ -479,18 +494,28 @@ def updateProfile(request):
     user_check = True
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
+        usr = Clientdata.objects.filter(User=request.user)
         if coun:
             user_check = False
+        elif usr:
+            return redirect(home)    
+    else:
+        return redirect(home)        
         
     form = UpdateProfileForm()
-    context = {"form":form,"client":user_check}
+
+    user = request.user
+    special = True
+
+    # This check will ensure that no student can create a counsellor account
+    if user.email[0]=='2':
+        special = False
+
+    # form['Name'] = request.user.first_name
+    context = {"form":form,"client":user_check,"special":special}
     if request.method=='POST':
         form = UpdateProfileForm(request.POST)
         if form.is_valid():
-            # user = Clientdata(**form.cleaned_data)
-            curr = request.user
-            curr.first_name = request.POST["Name"]
-            curr.save()
             instance = form.save(commit=False)
             instance.User = request.user
             instance.save()
@@ -539,31 +564,74 @@ def editProfileCounsellor(request):
     user_check = True
     if request.user.is_authenticated:
         coun = Counsellordata.objects.all().filter(User=request.user)
+        usr = Clientdata.objects.filter(User=request.user)
         if coun:
             user_check = False
+        elif usr:
+            return redirect(home)    
+    else:
+        return redirect(home)        
             
+    user = request.user
+    
+    # so that no student can make a counsellor account
+    try:
+        if user.is_authenticated:
+            if user.email[0]=='2':
+                return redirect(home)    
+    except:
+        user = request.user
 
-    if user_check:
-        return redirect(home)
+    try:
+        obj = Counsellordata.objects.get(User = request.user)
+    except:
+        obj = None    
 
-    obj = Counsellordata.objects.get(User = request.user)
+    # form = UpdateProfileFormCounsellor({'Education':obj.Education,'Expertise':obj.Expertise,'Summary':obj.Summary,'Consultation_start':obj.Consultation_start,'Consultation_end':obj.Consultation_end}) 
 
-    form = UpdateProfileFormCounsellor({'Name':obj.Name,'Gender':obj.Gender,'Age':obj.Age,'Email':obj.Email,'State':obj.State,'City':obj.City,'Education':obj.Education,'Expertise':obj.Expertise,'Summary':obj.Summary,'Consultation_start':obj.Consultation_start,'Consultation_end':obj.Consultation_end}) 
-
-    context = {"form":form,"client":user_check}
+    context = {"client":user_check,"counsellor":obj}
 
     if request.method=='POST':
-        obj.Name = request.POST['Name']
-        obj.Gender = request.POST['Gender']
-        obj.Age = request.POST['Age']
-        obj.Email = request.POST['Email']
-        obj.State = request.POST['State']
-        obj.City = request.POST['City']
-        obj.Education = request.POST['Education']
-        obj.Expertise = request.POST['Expertise']
-        obj.Summary = request.POST['Summary']
-        obj.Consultation_start = request.POST['Consultation_start']
-        obj.Consultation_end = request.POST['Consultation_end']
+
+        f = FileSystemStorage()
+
+        # print(request.FILES)
+        # print(request.POST)
+
+        if obj==None:
+            obj = Counsellordata.objects.create(User=request.user)
+
+        try:
+            print("HELLO")
+            myimage = request.FILES.get('images')
+            print(myimage)
+            imagename = f.save(myimage.name, myimage)
+            imageurl = f.url(imagename)
+        except:
+            print("no")
+            imageurl = '-'
+            imagename = '-'
+
+        # imageurl = "../.."+imageurl
+            
+        obj.Name = request.POST['name']
+        obj.Gender = request.POST['gender']
+        obj.Age = request.POST['age']
+        obj.Email = request.POST['email']
+        obj.State = request.POST['state']
+        obj.City = request.POST['city']
+        obj.Education = request.POST.get('eduation')
+        obj.Expertise = request.POST['expertise']
+        obj.Summary = request.POST['summary']
+        obj.Consultation_start = request.POST['consult_start']
+        obj.Consultation_end = request.POST['consult_end']
+
+        
+        if imagename != '-' and obj.profilepicurl != '-':
+            f.delete(obj.profilepicname)
+
+        obj.profilepicurl = imageurl
+        obj.profilepicname = imagename
 
         obj.save()
 
@@ -571,6 +639,11 @@ def editProfileCounsellor(request):
 
 
     return render(request,'client/edit-profile-counsellor.html',context)    
+
+
+
+
+
 
 @login_required
 def deleteDescription(request,pk):
@@ -734,31 +807,7 @@ def active(request):
     return render(request,'client/active_clients.html',{"client":user_check,"all_clients":zip(all_clients,time)})    
 
 
-def updateProfileCounsellor(request):
-    user_check = False
-    if request.user.is_authenticated:
-        client = Clientdata.objects.all().filter(User=request.user)
-        if client:
-            user_check = True
-            return render(request,'client/home.html',{"client":user_check})
-
-    form = UpdateProfileFormCounsellor
-    context = {"form":form,"client":user_check}
-    if request.method=='POST':
-        form = UpdateProfileFormCounsellor(request.POST)
-        if form.is_valid():
-            curr = request.user
-            curr.first_name = request.POST["Name"]
-            curr.save()
-            instance = form.save(commit=False)
-            instance.User = request.user
-            instance.save()
-            form = UpdateProfileFormCounsellor()
-            return render(request,'client/home.html',{"client":user_check})
-        else:
-            return render(request,'client/update-profile-counsellor.html',context)
-            
-    return render(request,'client/update-profile-counsellor.html',context) 
+ 
 
 
 

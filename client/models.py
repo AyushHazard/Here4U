@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from django.core.files.storage import FileSystemStorage
 # Create your models here.
 
 # CLIENT MODELS
@@ -69,7 +69,8 @@ class Counsellordata(models.Model):
     Name = models.CharField(max_length=100)
     Gender=models.CharField(max_length=32,choices=[('Male','Male'),('Female','Female'),('Others','Others')])
     Age=models.IntegerField(blank = True,null=True)
-    Profile_pic = models.FileField(blank=True,null=True)
+    profilepicurl = models.TextField(default='-')
+    profilepicname = models.TextField(default='-')
     Email=models.EmailField()
     State=models.CharField(max_length=50,blank=True,null=True)
     City=models.CharField(max_length=50,blank=True,null=True)

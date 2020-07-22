@@ -16,11 +16,19 @@
 
 {%block content%}
 <br>
-	<div >
+	<div>
 	
 	
 	<h2>{{profData.Name}}</h2>
 	<br>
+	{% if profData.profilepicurl != "-" %}
+	<a href="#" class="image fit">
+		 
+		<img style="width: 250px;height: 250px" src="{{profData.profilepicurl}}" alt="" />
+		
+	</a>
+	<br>
+	{%endif%}
 	<b>Age : {{profData.Age}}
 	&ensp;&ensp;&ensp;
 	Gender : {{profData.Gender}}
@@ -37,7 +45,7 @@
 	<b>
 	Consultation Start : {{profData.Consultation_start}}
 	&ensp;&ensp;&ensp;
-	Consultation End : {{profData.Consultation_end}}</b>
+	Consultation End : {{profData.Consultation_end}}</b>			
 
 
 	<br><br><br>
@@ -51,6 +59,7 @@
 	State : {{profData.State}}
 	&ensp;&ensp;&ensp;
 	City : {{profData.City}}</b>
+	
 		
 	
 

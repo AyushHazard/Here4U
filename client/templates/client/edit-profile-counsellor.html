@@ -23,15 +23,100 @@
 
 <center><h2>Edit Profile</h2></center>
 
-<form method="post" class="alt">
+<form method="post" enctype="multipart/form-data" class="alt">
 	{% csrf_token %}
 	<div class="row uniform">
 
-		<div class="table-wrapper">
+		<!-- <div class="table-wrapper">
 				<table>
 					{{form.as_table}}
 				</table>
+			</div> -->
+
+			
+			<div class="6u 12u$(xsmall)">
+			<h4>Name</h4>
+			<input type="text" name="name" id="demo-name" style="border: 1px solid" value="{{counsellor.Name}}" placeholder="Name (Set an alias if you do not wish to reveal your name)" />
 			</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Email</h4>
+			<input type="email" name="email" id="demo-email" value="{{counsellor.Email}}" style="border: 1px solid" placeholder="Email (Mandatory, but will not be visible to anyone)" />
+		</div>
+		
+		
+		<div class="12u$">
+			<div class="select-wrapper">
+				<h4>Gender</h4>
+				<select name="gender" style="border: 1px solid"  id="demo-category">
+					<option value="-">- Gender -</option>
+					{% if counsellor.Gender == "Male" %}
+					<option value="Male" selected>Male</option>
+					{%else%}
+					<option value="Male">Male</option>
+					{%endif%}
+					{% if counsellor.Gender == "Female" %}
+					<option value="Female" selected>Female</option>
+					{%else%}
+					<option value="Female">Female</option>
+					{%endif%}
+					{% if counsellor.Gender == "Others" %}
+					<option value="Others" selected>Others</option>
+					{%else%}
+					<option value="Others">Others</option>
+					{%endif%}
+				</select>
+			</div>
+		</div>
+
+		<h4>Profile Pic</h4>
+		<input type='file' id="image" onchange="readURL(this);" accept="image/*" name = "images"/>
+		
+		<img id="img" class="image fit" style="height: 250px;width: 250px;" src="{{counsellor.profilepicurl}}"   alt="" />
+		
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Age</h4>
+			<input type="text" name="age" id="demo-age" style="border: 1px solid" value="{{counsellor.Age}}" placeholder="Age (Mandatory)" />
+		</div>
+		<div class="6u$ 12u$(xsmall)">
+			<h4>City</h4>
+			<input type="text" name="city" id="demo-city" style="border: 1px solid" value="{{counsellor.City}}" placeholder="City (Optional)" />
+		</div>
+		<div class="6u$ 12u$(xsmall)">
+			<h4>State</h4>
+			<input type="text" name="state" id="demo-state" style="border: 1px solid" value="{{counsellor.State}}" placeholder="State (Optional)" />
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Education</h4>
+			<input type="text" name="education" id="demo-education" style="border: 1px solid" value="{{counsellor.Education}}" placeholder="Education (Optional)" />
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Expertise</h4>
+			<input type="text" name="expertise" id="demo-expertise" style="border: 1px solid" value="{{counsellor.Expertise}}" placeholder="Expertise (Optional)" />
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Summary</h4>
+			<input type="text" name="summary" id="demo-summary" style="border: 1px solid" value="{{counsellor.Summary}}" placeholder="Summary (Optional)" />
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Consultation Start</h4>
+			<input type="time" name="consult_start" id="demo-consult-start" style="border: 1px solid" value="{{counsellor.Consultation_start|time:"H:i"}}" placeholder="Consultation start" />
+		</div>
+
+		<div class="6u$ 12u$(xsmall)">
+			<h4>Consultation End</h4>
+			<input type="time" name="consult_end" id="demo-consult-end" style="border: 1px solid" value="{{counsellor.Consultation_end|time:"H:i"}}" placeholder="Consultation end" />
+		</div>
+
+		<!-- <div class="table-wrapper">
+				<table>
+					{{form.as_table}}
+				</table>
+			</div> -->
 		
 		<div class="12u$">
 			<ul class="actions">
@@ -41,5 +126,22 @@
 		</div>
 	</div>
 </form>
+
+{%block javascript %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                    
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+{% endblock %}
 
 {%endblock%}

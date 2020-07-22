@@ -1,4 +1,5 @@
 {% load static %} 
+{%load socialaccount%}
 <!DOCTYPE HTML>
 <!--
 	Here4U by HTML5 UP
@@ -69,8 +70,7 @@
 				</ul>
 				{%else%}
 				<ul class="actions">
-					<li><a href="{%url 'login'%}" class="button">Log in</a></li>
-					<li><a href="{%url 'sign-up'%}" class="button">Sign Up</a></li>
+					<li><a href="{% provider_login_url 'google' %}" class="button"><i class="fa fa-google" aria-hidden="true"></i> &nbsp; Login with google</a></li>
 				</ul>
 				{%endif%}
 				<!--<img src="../../static/client/images/logo.png" alt="" width="50">-->

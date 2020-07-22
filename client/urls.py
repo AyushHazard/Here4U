@@ -34,7 +34,7 @@ urlpatterns = [
     path('pick/',views.pick,name = "pick-clients"),
     path('active/',views.active,name = "active-clients"),
     path('active-sessions/',views.sessions,name="active-sessions"),
-    path('update-profile-counsellor',views.updateProfileCounsellor,name="update-profile-counsellor"),
+    path('update-profile-counsellor',views.editProfileCounsellor,name="update-profile-counsellor"),
     path('book/<int:pk>/',views.book,name="book-appointment"),
     path('FAQs/',views.faqs,name="faqs"),
     #path('blog/',views.blog,name="blog"),
@@ -56,7 +56,8 @@ urlpatterns = [
     path('session-notes/<int:pk>',views.sessNotes,name='session-notes'),
     path('view-notes/<int:pk>',views.viewSessNotes,name='view-notes'),
     path('delete-notes/<int:pk>',views.delSessNotes,name='delete-notes'),
-
+    path('logout/',views.LogOut,name='logout'),
+    path('login/',views.LogIn,name='login'),
     
     # API URLS
     #api auth
