@@ -347,8 +347,11 @@ def delSessNotes(request,pk):
 
     actualCoun = note.counsellor
 
+    f = FileSystemStorage()
+
     if actualCoun==request.user:
         cl = note.client
+        f.delete(note.filename)
         note.delete()
         return redirect(sessNotes,pk=cl.id)
     else:
@@ -837,13 +840,16 @@ def active(request):
 
     all_clients = []
     time = []
+
+    all_sessions = sessionNotes.objects.filter(counsellor=request.user)
+
     for obj in ActiveBookings.objects.filter(counsellor=request.user):
         client = obj.client
         time.append(obj.Booking_time)
         # print(counsellor)
         all_clients.append(Clientdata.objects.get(User=client))        
 
-    return render(request,'client/active_clients.html',{"client":user_check,"all_clients":zip(all_clients,time)})    
+    return render(request,'client/active_clients.html',{"client":user_check,"all_sessions":all_sessions,"all_clients":zip(all_clients,time)})    
 
 
  

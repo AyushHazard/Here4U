@@ -40,4 +40,22 @@
 			
 		</section>
 
+
+		<h2>All notes</h2>
+	
+	<section class="posts">
+
+		<article>
+				<ul class="actions">
+		{%for note in all_sessions%}
+			
+					<li><a href="{%url 'view-notes' pk=note.pk %}" class="button small">{{note.client.first_name}} | {{note.title}}</a></li>
+					<li><a href="{%url 'delete-notes' pk=note.id%}" class = "button special small">Delete</a></li>
+					<p><br></p>
+				
+		{%endfor%}	
+			</ul>
+			</article>
+		</section>	
+
 {%endblock%}
