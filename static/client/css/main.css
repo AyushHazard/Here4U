@@ -2176,7 +2176,7 @@
 		-ms-appearance: none;
 		appearance: none;
 		background: transparent;
-		border: solid 2px;
+		border: solid 1px;
 		color: inherit;
 		display: block;
 		outline: 0;
@@ -2327,7 +2327,7 @@
 	input[type="email"],
 	select,
 	textarea {
-		border-color: #eeeeee;
+		border-color: #000000;
 	}
 
 		input[type="text"]:focus,

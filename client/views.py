@@ -550,9 +550,11 @@ def updateProfile(request):
     special = True
 
     # This check will ensure that no student can create a counsellor account
-    if user.email[0]=='2':
-        special = False
-
+    try:
+        if user.email[0]=='2':
+            special = False
+    except:
+        special=True        
     # form['Name'] = request.user.first_name
     context = {"form":form,"client":user_check,"special":special}
     if request.method=='POST':
