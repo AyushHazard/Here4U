@@ -44,28 +44,7 @@
 
 
 
-
-	
-
-
-
-
 </div>
-
-{%for note in old_notes%}
-
-	<ul class="actions fit">
-	
-	<li><a href="{%url 'view-notes' pk=note.id%}" class = "button fit big">{{note.title}}</a></li>
-	
-	<li><a href="{%url 'view-notes' pk=note.id%}" class = "button special fit big">Open</a></li>
-	<!-- &ensp; -->
-	<li><a href="{%url 'delete-notes' pk=note.id%}" class = "button special small">Delete</a></li>
-	
-	</ul>
-
-	{%endfor%}
-
 
 
 {%endblock%}
