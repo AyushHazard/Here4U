@@ -17,11 +17,11 @@
 
 {% block content %}
 
-<header class ="major"><h2>Write a New Blog.</h2></header>
+<header class ="major"><h2>Write a New Blog !</h2></header>
 
 <div id = "main">
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     
     <input type="text" name="title" placeholder="Enter the title of the Blog" />
@@ -31,11 +31,35 @@
 	<ul class = "actions">
 	<li><input type="submit" class = "button special" value = "+ Post Blog"/></li>
 	<li><input type="reset" class = "button" value = "Reset"/></li>
+	<li><label for="image">
+        Add an image &nbsp; <i class="fa fa-image fa-2x" style = "cursor : pointer"  ></i>          
+    </label><li>
+	<p hidden><input type='file' id="image" onchange="readURL(this);" accept="image/*" name = "images"></p>
+	
+	
 	</ul>
 
 
 </form>
 
+<a href="#" class="image fit"><img id="img" src="#" alt="" /></a>
+
 </div>
+
+{%block javascript %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+{% endblock %}
 
 {% endblock %}

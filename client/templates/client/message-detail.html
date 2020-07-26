@@ -21,13 +21,15 @@
 
 <div id = "main">
 
+	{%if convo.has_next %}
 	<ul class = "actions fit">
-		<li><a href="#" class = "button fit small">Older messages</a></li>
+		<li><a href="?page={{ convo.next_page_number }}" class = "button fit small">Older messages</a></li>
 
 	</ul>
+	{%endif%}
 	<p>
 
- {%for mess in convo%}
+ {%for mess in message_list%}
 
  <b>{{mess.sender.first_name}}: </b> {{mess.body}}
 	<br/>
@@ -37,9 +39,11 @@
 
 </p>
 	
-
-
-
+{%if convo.has_previous %}
+<ul class = "actions fit">
+		<li><a href="?page={{ convo.previous_page_number }}" class = "button fit small">Newer messages</a></li>
+	</ul>
+{%endif%}
 <form method="POST">
 	{% csrf_token %}
 

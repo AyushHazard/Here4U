@@ -55,7 +55,7 @@
 	
 	<li><a href="{%url 'view-notes' pk=note.id%}" class = "button special fit big">Open</a></li>
 	<!-- &ensp; -->
-	<li><a href="{%url 'delete-notes' pk=note.id%}" class = "button special small">Delete</a></li>
+	<li><a onclick="return confirm('Are you sure you want to delete this?')" href="{%url 'delete-notes' pk=note.id%}" class = "button special small">Delete</a></li>
 	
 	</ul>
 

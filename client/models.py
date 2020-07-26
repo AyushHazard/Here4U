@@ -106,6 +106,8 @@ class Post(models.Model):
     time = models.DateTimeField(null = True,auto_now = True)
     body = models.TextField()
     brief = models.TextField(null = True)
+    picurl = models.TextField(default='-')
+    picname = models.TextField(default='-')
 
     def __str__(self):
         return self.title + '|' + str(self.author)

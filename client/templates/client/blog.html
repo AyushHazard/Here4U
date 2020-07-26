@@ -25,6 +25,7 @@
 {% endfor %}
 </ul>
 -->
+
     <header class="major">
 		<span class="date">{% now "jS F Y H:i" %}</span>
         <ul class="actions">
@@ -36,13 +37,15 @@
 	</header>
 
 
+
+
     <section class="posts">
         {%for post in all_posts%}
 			<article>
             <header>
             <h3>{{post.title}}</h3>
             </header>
-				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
+				<a href="#" class="image fit"><img src="{{post.picurl}}" alt="" /></a>
 				<p>{{post.brief}}</p>
 				<ul class="actions">
 					<li><a href="{% url 'blog_detail' post.pk %}" class="button">Full Blog</a></li>
@@ -57,5 +60,19 @@
             </ul>
         </article>
 		
+    {% if all_posts.has_other_pages %}
+        <ul class="icons alt">
+        {% if all_posts.has_previous %}
+        <li><a href="?page={{ all_posts.previous_page_number }}" class="icon fa-arrow-left"><span class="label">Previous</span></a>Previous</li>
+        {% else %}
+          <li><a href="#" class="icon fa-arrow-left"><span class="label">Previous</span></a>Previous</li>
+        {% endif %}
+        {% if all_posts.has_next %}
+          <li>Next<a href="?page={{ all_posts.next_page_number }}" class="icon fa-arrow-right"><span class="label">Next</span></a></li>
+        {% else %}
+          <li>Next<a href="#" class="icon fa-arrow-right"><span class="label">Next</span></a></li>
+        {% endif %}
+          </ul>
+    {% endif %}
 
 {%endblock%}

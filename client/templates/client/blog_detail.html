@@ -19,6 +19,9 @@
 
 <div id="main">
 <header class = "major"><h2>{{post.title}}</h2></header>
+{%if post.picurl != '-' %}
+<a href="#" class="image fit"><img src="{{post.picurl}}" alt="" /></a>
+{%endif%}
 <p>{{post.body}}</p>
 <H4 align="right"> By: {{ post.author.first_name}} </H4>
 </div>

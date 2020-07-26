@@ -37,11 +37,11 @@
             <header>
             <h3>{{post.title}}</h3>
             </header>
-				<a href="#" class="image fit"><img src="../../static/client/images/pic1.jpeg" alt="" /></a>
+				<a href="#" class="image fit"><img src="{{post.picurl}}" alt="" /></a>
 				<p>{{post.brief}}</p>
 				<ul class="actions">
 					<li><a href="{% url 'update-blog' post.pk %}" class="button">Update Blog</a></li>
-                    <li><a href="{% url 'delete-blog' post.pk %}" class="button">Delete Blog</a></li>
+                    <li><a onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'delete-blog' post.pk %}" class="button">Delete Blog</a></li>
 				</ul>
 			</article>
         {%endfor%}

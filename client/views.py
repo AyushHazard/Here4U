@@ -21,6 +21,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView
 from .serializers import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from counsellor.models import *
 # Create your views here.
 
@@ -42,8 +43,18 @@ def createPostView(request):
     if request.method=='POST':
         brief = request.POST['body'][:200]+"..."
 
+        f = FileSystemStorage()
+
+        try:
+            myimage = request.FILES['images']
+            imagename = f.save(myimage.name, myimage)
+            imageurl = f.url(imagename)
+        except:
+            imageurl = '-'
+            imagename = '-'
+
         if request.POST['body']!='':
-            new_post = Post.objects.create(title = request.POST['title'],author=request.user,body=request.POST['body'],brief=brief)        
+            new_post = Post.objects.create(title = request.POST['title'],author=request.user,body=request.POST['body'],brief=brief,picname=imagename,picurl=imageurl)        
 
         return redirect(blogListView)
         
@@ -93,11 +104,22 @@ def blogListView(request):
 
     all_posts.sort(key = lambda x: x.time, reverse = True) 
 
-    # print(all_posts)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(all_posts, 6)
+    try:
+        post = paginator.page(page)
+    except PageNotAnInteger:
+        post = paginator.page(1)
+    except EmptyPage:
+        post = paginator.page(paginator.num_pages)
+
+    print(post)
 
     # We'll sort by date-time
 
-    return render(request,'client/blog.html',{"all_posts":all_posts,"client":user_check})   
+
+    return render(request,'client/blog.html',{"all_posts":post,"client":user_check})   
 
 @login_required
 def personalBlogListView(request):
@@ -117,11 +139,13 @@ def personalBlogListView(request):
 @login_required
 def deleteBlog(request,pk):
     
-
+    f = FileSystemStorage()
 
     post = Post.objects.get(pk=pk)
 
     if request.user==post.author:
+        if post.picname!='-':
+            f.delete(post.picname)
         post.delete()
 
     return redirect(personalBlogListView) 
@@ -145,6 +169,23 @@ def updateBlogView(request,pk):
         post.title = request.POST['title']
         post.body = request.POST['body']
         post.brief = request.POST['body'][:200] + '...'
+
+        f = FileSystemStorage()
+
+        try:
+            myimage = request.FILES['images']
+            imagename = f.save(myimage.name, myimage)
+            imageurl = f.url(imagename)
+        except:
+            imageurl = '-'
+            imagename = '-'
+
+        if imageurl!='-':
+            if post.picurl!='-':
+                f.delete(post.picname)
+            post.picname = imagename
+            post.picurl = imageurl        
+
         post.save()
         return redirect(personalBlogListView)
 
@@ -478,14 +519,17 @@ def messageDetail(request,pk):
     for i in Message.objects.filter(sender = Reciever, reciever = Sender):
         conversation.append(i)
 
-    conversation.sort(key = lambda x: x.time, reverse = False)    
+    conversation.sort(key = lambda x: x.time, reverse = True) 
 
-    # for i in conversation:
-    #     print(i.time)
-    
+    page = request.GET.get('page', 1)
 
-    # print(Sender)
-    # print(Reciever)
+    paginator = Paginator(conversation, 10)
+    try:
+        convo = paginator.page(page)
+    except PageNotAnInteger:
+        convo = paginator.page(1)
+    except EmptyPage:
+        convo = paginator.page(paginator.num_pages)   
 
     if request.method=='POST':
         # print(request.POST["message-body"])
@@ -501,8 +545,13 @@ def messageDetail(request,pk):
         # print(new_message.time)
         return redirect(messageDetail,pk=pk)
 
+    message_list = []
+    for i in convo:
+        message_list.append(i)
 
-    return render(request,'client/message-detail.html',{"client":user_check,"convo":conversation})
+    message_list.reverse()    
+        
+    return render(request,'client/message-detail.html',{"client":user_check,"convo":convo,'message_list':message_list})
 
 
     
