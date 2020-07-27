@@ -246,7 +246,7 @@ def home(request):
     extra_content = Extra_info.objects.all()    
 
     # motivation_large[0].picture = "/client/media/"   
-    print(motivation_large[0].picture) 
+    # print(motivation_large[0].picture) 
                  
     return render(request,'client/home.html',{"client":user_check,"motivation_small":motivation_small,"motivation_large":motivation_large,"extra_content":extra_content})
 
