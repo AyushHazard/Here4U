@@ -7,13 +7,13 @@ from django.views.generic import CreateView,ListView, DetailView
 from .models import Post
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-
+import requests
 from django.contrib.auth.forms import UserCreationForm
 # from counsellor.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-
+from allauth.socialaccount.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions, authentication, status
@@ -22,6 +22,13 @@ from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, 
 from .serializers import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+import datetime
+import pickle
+import os.path
+from oauth2client import client
 # from counsellor.models import *
 # Create your views here.
 
@@ -820,7 +827,6 @@ def book(request,pk):
 
     form = BookingForm()
     check = ActiveBookings.objects.filter(client = request.user, counsellor=counsellor.User)
-
     if not check:
         context={"form":form,"client":user_check,"counsellor":counsellor}
         if request.method=='POST':
@@ -833,6 +839,44 @@ def book(request,pk):
                 # active_client = ActiveClient(user=counsellor.User,Client=request.user,Booking_time=instance.Booking_time)
                 instance.save()
                 # active_client.save()
+                user =request.user
+
+    # Code dependent upon django-allauth. Will change if we shift to another module
+
+    # if request.user.userprofile.get_provider() != "google":
+                a = SocialAccount.objects.get(user=user)
+                b = SocialToken.objects.get(account=a)
+                # access = b.token
+                access_token = b.token
+                SCOPES = ['https://www.googleapis.com/auth/calendar']
+                creds = client.AccessTokenCredentials(access_token, 'USER_AGENT')
+                service = build('calendar', 'v3', credentials=creds)
+                event = {
+                  'summary': 'Your appointment',
+                  'location': 'IIT Ropar virtual',
+                  'description': 'Your appointment',
+                  'start': {
+                    'dateTime': '2020-07-31T09:00:00-07:00',
+                    'timeZone': 'America/Los_Angeles',
+                  },
+                  'end': {
+                    'dateTime': '2020-08-10T17:00:00-07:00',
+                    'timeZone': 'America/Los_Angeles',
+                  },
+                  'attendees': [
+                    {'email': 'lpage@example.com'},
+                    {'email': 'sbrin@example.com'},
+                  ],
+                  'reminders': {
+                    'useDefault': False,
+                    'overrides': [
+                      {'method': 'email', 'minutes': 24 * 60},
+                      {'method': 'popup', 'minutes': 10},
+                    ],
+                  },
+                }
+                event = service.events().insert(calendarId='primary', body=event).execute()
+                print ('Event created: %s' % (event.get('htmlLink')))
                 return redirect(sessions)
             else:
                 form = BookingForm()
