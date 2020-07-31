@@ -30,7 +30,9 @@
 	{%for info in about_us_large%}	
         <p><b><i>{{info.title}}</i></b></p>
 	</header>
+    {%if info.picture%}
 	<div class="image main"><img src="/client/media/{{info.picture}}" alt="" height="600" width="800" /></div>
+    {%endif%}
 	<p>{{info.content}}</p>
     {%endfor%}
 	<div class="expert_doctors_area p-0">
