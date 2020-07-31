@@ -30,7 +30,9 @@
 	</header>
 
     {%for post in faq_big%}
+    {%if post.picture%}
     <div class="image main"><img src="/client/media/{{post.picture}}" alt="" height="300" width="600" /></div>
+    {%endif%}
     <h3>{{post.title}}</h3>
     <p>{{post.content}}</p>
     {%endfor%}

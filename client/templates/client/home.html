@@ -48,7 +48,9 @@
 				<h2><a href="#">{{motivation.quote1}}</a></h2>
 				<p>{{motivation.quote2}}</p>
 			</header>
+			{%if motivation.picture%}
 			<a href="#" class="image main"><img src="/client/media/{{motivation.picture}}" alt="" /></a>
+			{%endif%}
 			<ul class="actions">
 				<li><a href="{{motivation.article_link}}" target="_blank" class="button big">Real Life Motivational Stories</a></li>
 			</ul>
