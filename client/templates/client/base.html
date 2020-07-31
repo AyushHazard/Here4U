@@ -22,6 +22,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{%static 'client/css/main.css' %}" />
+		<link rel="icon" href="{%static 'client/images/favicon.ico'%}">
 		<noscript><link rel="stylesheet" href="{%static 'client/css/noscript.css' %}" /></noscript>
 	</head>
 	<body class="is-loading">
@@ -110,9 +111,8 @@
 					</ul>
 					{%else%}
 					<ul class="actions">
-						<li><a href="{%url 'login'%}" class="button">Log in</a></li>
-						<li><a href="{%url 'sign-up'%}" class="button">Sign Up</a></li>
-					</ul>
+					<li><a href="{% provider_login_url 'google' %}" class="button"><i class="fa fa-google" aria-hidden="true"></i> &nbsp; Login with google</a></li>
+				</ul>
 					{%endif%}
 					<p>Use your IIT Ropar Email id to sign up<br />
 					</p>

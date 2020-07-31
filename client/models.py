@@ -25,8 +25,6 @@ class Description(models.Model):
     # Email=models.ForeignKey(Clientdata,on_delete=models.CASCADE)
     User = models.OneToOneField(User,on_delete=models.SET_NULL, null=True, blank=True)
     Message=models.CharField(max_length=1000) 
-    fileurl = models.TextField(default='-')
-    filename = models.TextField(default='-')
 
     def __str__(self):
         return self.Message
@@ -154,6 +152,21 @@ class About_us_small(models.Model):
     def __str__(self):
         return self.title
 
+class FAQ_big(models.Model):
+    title = models.TextField(default='-')
+    content = models.TextField(default='-')
+    picture = models.FileField(upload_to = 'uploads',null=True,blank=True)
+
+    def __str__(self):
+        return self.title
+
+class FAQ_small(models.Model):
+    title = models.TextField(default='-')
+    content = models.TextField(default='-')
+
+    def __str__(self):
+        return self.title        
+
 class Team_details(models.Model):
     Name = models.CharField(max_length=200)
     Position = models.CharField(max_length=200)
@@ -170,4 +183,10 @@ class Problem_reports(models.Model):
 
     def __str__(self):
         return self.title
+
+class Queries(models.Model):
+    question = models.TextField(default = '-')
+
+    def __str__(self):
+        return self.question        
 

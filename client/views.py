@@ -7,6 +7,7 @@ from django.views.generic import CreateView,ListView, DetailView
 from .models import Post
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from datetime import date
 import requests
 from django.contrib.auth.forms import UserCreationForm
 # from counsellor.models import *
@@ -121,7 +122,7 @@ def blogListView(request):
     except EmptyPage:
         post = paginator.page(paginator.num_pages)
 
-    print(post)
+    # print(post)
 
     # We'll sort by date-time
 
@@ -231,9 +232,17 @@ def faqs(request):
         coun = Counsellordata.objects.all().filter(User=request.user)
         if coun:
             user_check = False
-        
+    
+    faq_small = FAQ_small.objects.all()
+    faq_big = FAQ_big.objects.all()
+    message = None
+
+    if request.method=='POST':
+        Queries.objects.create(question=request.POST['Question'])
+        message = "Thank you for the query, we will try to address this."
             
-    return render(request,'client/faqs.html',{"client":user_check})
+            
+    return render(request,'client/faqs.html',{"client":user_check,'faq_big':faq_big,'faq_small':faq_small,'message':message})
 
       
 
@@ -346,7 +355,7 @@ def sessNotes(request,pk):
         sess_notes = sessionNotes(client=Client,counsellor=request.user,title=request.POST["title"],about=request.POST["about"])
         try:
             SessNotes = request.FILES.get('sessNotes')
-            print(SessNotes)
+            # print(SessNotes)
             filename = f.save(SessNotes.name,SessNotes)
             fileurl = f.url(filename)
         except:
@@ -702,13 +711,13 @@ def editProfileCounsellor(request):
             obj = Counsellordata.objects.create(User=request.user)
 
         try:
-            print("HELLO")
+            # print("HELLO")
             myimage = request.FILES.get('images')
-            print(myimage)
+            # print(myimage)
             imagename = f.save(myimage.name, myimage)
             imageurl = f.url(imagename)
         except:
-            print("no")
+            # print("no")
             imageurl = '-'
             imagename = '-'
 
@@ -839,8 +848,30 @@ def book(request,pk):
                 # active_client = ActiveClient(user=counsellor.User,Client=request.user,Booking_time=instance.Booking_time)
                 instance.save()
                 # active_client.save()
+                today = date.today()
+                today+= datetime.timedelta(days=1)
+                today = str(today)
+                # print(today)
+                time = instance.Booking_time
+                start_time = time
+                start_time = str(start_time)
+                time = time.replace(hour=(time.hour+1) % 24)
+                # time+=datetime.timedelta(hours =1)
+                end_time = str(time)
+                start = today + "T" + start_time + "+05:30"
+                end = today + "T" + end_time + "+05:30"
+
+                # print(start)
+                # print(end)
+
                 user =request.user
 
+                counsellor_email = 'sbrin@example.com'
+
+                if counsellor.User.email:
+                    counsellor_email = str(counsellor.User.email)
+
+                # print(counsellor_email)    
     # Code dependent upon django-allauth. Will change if we shift to another module
 
     # if request.user.userprofile.get_provider() != "google":
@@ -856,16 +887,15 @@ def book(request,pk):
                   'location': 'IIT Ropar virtual',
                   'description': 'Your appointment',
                   'start': {
-                    'dateTime': '2020-07-31T09:00:00-07:00',
-                    'timeZone': 'America/Los_Angeles',
+                    'dateTime': start,
+                    'timeZone': 'Asia/Kolkata',
                   },
                   'end': {
-                    'dateTime': '2020-08-10T17:00:00-07:00',
-                    'timeZone': 'America/Los_Angeles',
+                    'dateTime': end,
+                    'timeZone': 'Asia/Kolkata',
                   },
                   'attendees': [
-                    {'email': 'lpage@example.com'},
-                    {'email': 'sbrin@example.com'},
+                    {'email': counsellor_email},
                   ],
                   'reminders': {
                     'useDefault': False,
@@ -876,7 +906,7 @@ def book(request,pk):
                   },
                 }
                 event = service.events().insert(calendarId='primary', body=event).execute()
-                print ('Event created: %s' % (event.get('htmlLink')))
+                # print ('Event created: %s' % (event.get('htmlLink')))
                 return redirect(sessions)
             else:
                 form = BookingForm()
@@ -978,7 +1008,7 @@ def current_user(request):
 
     
     serializer = UserSerializer(request.user)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)    
 
 class CreateUserView(CreateAPIView):
@@ -1150,7 +1180,7 @@ class LogInView(APIView):
         # data = request.data
 
         # print(request.POST['data '])
-        print(data)
+        # print(data)
 
         try:
             # data = request.data
@@ -1164,11 +1194,11 @@ class LogInView(APIView):
             password = data.get('password')
 
 
-        print(username)
-        print(password)
+        # print(username)
+        # print(password)
 
         user = authenticate(username=username, password=password)
-        print(user.is_authenticated)
+        # print(user.is_authenticated)
         # login(request, user)
 
         # return Response(status=status.HTTP_200_OK)

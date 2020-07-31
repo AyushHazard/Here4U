@@ -1,4 +1,5 @@
 {%extends "client/base.html"%}
+{%load socialaccount%}
 <!--
 	Mentally by HTML5 UP
 	html5up.net | @ajlkn
@@ -52,13 +53,10 @@
 					{%if user.is_authenticated%}
 					<li><input type="submit" value="Submit" class="special" /></li>
 					{%else%}
-					<li><a href="{%url 'sign-up'%}" class="special button" >Login/ Signup to submit</a></li>
+					<li><a href="{% provider_login_url 'google' %}" class="button"><i class="fa fa-google" aria-hidden="true"></i> &nbsp; Login to submit</a></li>
 					{%endif%}
 					<li><input type="reset" value="Reset" /></li>
-					<li>
-						<!-- <label for="extra_data"class="button icon fa-upload">Upload an audio/video description</label> -->
-						<input id = "extra_data" type="file", name="extra_data"/>
-					</li>
+					
 					<!-- <li><a href={{form.extra_data}} class="button icon fa-upload">Upload an audio/video description</a></li> -->
 				</ul>
 			</div>

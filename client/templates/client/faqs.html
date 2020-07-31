@@ -28,68 +28,33 @@
 		<h1>FAQs,Facts and Ask</h1>
 		<p></p>
 	</header>
-	<div class="image main"><img src="../../static/client/images/well.png" alt="" height="300" width="600" /></div>
-    <h3>Well Being?</h3>
-    <p>Well-being is the experience of health, happiness, and prosperity. It includes having good mental health, high life satisfaction, a sense of meaning or purpose, and ability to
-     manage stress. More generally, well-being is just feeling well . Well-being is a positive outcome that is meaningful for people and for many sectors of society, because it tells
-      us that people perceive that their lives are going well. Good living conditions (e.g., housing, employment) are fundamental to well-being. Tracking these conditions is important 
-      for public policy. However, many indicators that measure living conditions fail to measure what people think and feel about their lives, such as the quality of their relationships,
-       their positive emotions and resilience, the realization of their potential, or their overall satisfaction with life—i.e., their “well-being.”1, 2 Well-being generally includes 
-       global judgments of life satisfaction and feelings ranging from depression to joy.</p>
-    <h3>What is Menatl Health?</h3>
-    <p>Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act. It also helps determine how we handle stress, relate to others,
-     and make choices. Mental health is important at every stage of life, from childhood and adolescence through adulthood.
-    Over the course of your life, if you experience mental health problems, your thinking, mood, and behavior could be affected. Many factors contribute to mental health problems, including:<br />
-    •	Biological factors, such as genes or brain chemistry<br />
-    •	Life experiences, such as trauma or abuse<br />
-    •	Family history of mental health problems<br />
-    </p>
-    <h3>Early Warning Signs-</h3>
-    <p><li>Eating or sleeping too much or too little</li>
-        <li>Pulling away from people and usual activities</li>
-        <li>Having low or no energy</li>
-        <li>Feeling numb or like nothing matters</li>    
-        <li>Having unexplained aches and pains</li>
-        <li>Feeling helpless or hopeless</li>
-        <li>Smoking, drinking, or using drugs more than usual</li>
-        <li>Feeling unusually confused, forgetful, on edge, angry, upset, worried, or scared</li>
-        <li>Yelling or fighting with family and friends</li>
-        <li>Experiencing severe mood swings that cause problems in relationships</li>
-        <li>Having persistent thoughts and memories you can't get out of your head</li>
-        <li>Hearing voices or believing things that are not true</li>
-        <li>Thinking of harming yourself or others</li>
-        <li>Inability to perform daily tasks like taking care of your kids or getting to work or school</li></p>
 
-    <h3>Ways to maintain positive positive mental health</h3>
-    <p><li>Getting professional help if you need it</li>
-        <li>Connecting with others</li>
-        <li>Staying positive</li>
-        <li>Getting physically active</li>
-        <li>Helping others</li>
-        <li>Getting enough sleep</li>
-        <li>Developing coping skills</li></p>
-    <h3>What is Depression?</h3>
-    <p>Depression (major depressive disorder) is a common and serious medical illness that negatively affects how you feel, the way you think and how you act. Fortunately, it is also
-     treatable. Depression causes feelings of sadness and/or a loss of interest in activities once enjoyed. It can lead to a variety of emotional and physical problems and can decrease
-      a person’s ability to function at work and at home.
-    Depression symptoms can vary from mild to severe and can include:</br>
-    <li>Feeling sad or having a depressed mood</li>
-    <li>Loss of interest or pleasure in activities once enjoyed</li>
-    <li>Changes in appetite — weight loss or gain unrelated to dieting</li>
-    <li>Trouble sleeping or sleeping too much</li>
-    <li>Loss of energy or increased fatigue</li>
-    <li>Increase in purposeless physical activity (e.g., hand-wringing or pacing) or slowed movements and speech (actions observable by others)</li>
-    <li>Feeling worthless or guilty</li>
-    <li>Difficulty thinking, concentrating or making decisions</li>
-    <li>Thoughts of death or suicide</li></p>
+    {%for post in faq_big%}
+    <div class="image main"><img src="/client/media/{{post.picture}}" alt="" height="300" width="600" /></div>
+    <h3>{{post.title}}</h3>
+    <p>{{post.content}}</p>
+    {%endfor%}
+
+
+    {%for post in faq_small%}
+    <h3>{{post.title}}</h3>
+    <p>{{post.content}}</p>
+    {%endfor%}
+
+    {%if message%}
+<script>
+    alert('{{ message }}');
+    </script>
+{%endif%}
+
+    
+    
     <form method="post">
     <h3>You can ask your question here-</h3>
-        <input type="text" id="Question" name="Question" placeholder="Ask whats on your mind!"><br>
-        {%if user.is_authenticated%}
+        {%csrf_token%}
+        <input type="text" id="Question" name="Question" placeholder="What's on your mind?"><br>
+        <br>
         <input type="submit" value="Submit">
-        {%else%}
-		<a href="{%url 'sign-up'%}" class="button">Login/ Signup to submit</a>
-		{%endif%}
         <input type="reset">
     </form>
 

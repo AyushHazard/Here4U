@@ -11,13 +11,8 @@
 
 {% block content %}
 
-  
-  <form method="post">
-    {% csrf_token %}
-    <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i><span> &nbsp; Sign in/ Sign up with Google</span></a>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
+  <br><br>
+  <a href="{% provider_login_url 'google' %}"><i class="fa fa-google" aria-hidden="true"></i><span> &nbsp; Sign in/ Sign up with Google</span></a>
   
   {# Assumes you setup the password_reset view in your URLconf #}
   
