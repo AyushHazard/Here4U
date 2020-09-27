@@ -6,6 +6,6 @@ Users can seek help from counsellors via video call/ chat. The portal also has s
 Website is based on Django, Bootstrap, JavaScript. It also contains Django REST Framework API to interact with the database, which will be helpful while building an android application.
 
 The link to the currently hosted website:-
-https://hear4u.herokuapp.com/  (Since it is hosted for free, user-uploaded media is only availaible for 30-mins thus there aren't any images visible)
+https://hear4u.herokuapp.com/  (Since it is hosted for free, user-uploaded media is only availaible for 30-mins thus images are not visible)
 
 Note - WIP -> Work in Progress
